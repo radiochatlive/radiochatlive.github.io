@@ -526,7 +526,7 @@
       <div class="intro-logo-ring"></div>
       <img src="intro.png" alt="Radio Live" class="intro-logo">
     </div>
-    <div class="intro-station">RADIO Synnefa LIVE </div>
+    <div class="intro-station">Radio Filotimo LIVE </div>
     <div class="intro-live">
       <span class="intro-live-dot"></span>
       LIVE RADIO
@@ -555,7 +555,7 @@
 <div class="player-btn player-hidden" id="visualizerCircle"></div>
 <div id="playBtn" class="player-hidden">Play</div>
 <div id="status" class="offair player-hidden">Πάτησε Play</div>
-<div id="nowPlaying" class="player-hidden"><span class="static-text">Radio  Synnefa Live</span></div>
+<div id="nowPlaying" class="player-hidden"><span class="static-text">Radio Filotimo Live</span></div>
 <div id="volumeControl" class="player-hidden">
   <input type="range" id="volumeSlider" min="0" max="100" value="100">
   <span id="volumeValue">100%</span>
@@ -853,8 +853,8 @@ audio.addEventListener('playing', () => {
 
   loadingModal.style.display = "none";
   statusEl.textContent = isLive
-    ? "ON AIR Radio Synnefa"
-    : "ON AIR Radio Synnefa (Backup)";
+    ? "ON AIR Radio Filotimo"
+    : "ON AIR Radio Filotimo (Backup)";
   statusEl.className = isLive ? "onair" : "offair";
 
   setTimeout(() => { fetchTitle(); }, 1500);
