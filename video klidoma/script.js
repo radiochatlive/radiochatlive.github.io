@@ -22,6 +22,7 @@ var channel = null;
 var privateChannel = null;
 var banChannel = null;
 var presenceChannel = null;
+var userVideoPerm = true;
 
 var localPeer = null;
 var currentCall = null;
@@ -87,10 +88,10 @@ function playNotificationSound() { if (soundVolume > 0) { notificationSound.curr
 
 var emojiCategories = {
     smileys: ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🥸','🥳','😏','😒','😞','😔','😟','😕','🙁','😖','😫','😩','🥺','😭','😤','😠','😡','🤬','😳','🥶','😨','😰','😥','😓','🤗','🤔','🤫','😶','😐','😑','😬','🙄','😯','😧','😮','😲','😴','🤤','😵','🤐','🥴','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','💩','💀','☠️','👽','🤖','😺','😸','😹','😻','😼','😽','🙀','😿','😾','🙈','🙉','🙊'],
-    animals: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🐣','🦆','🦅','🦉','🦇','🐺','🦄','🐝','🦋','🐌','🐞','🐜','🦟','🦗','🕷️','🦂','🐢','🐍','🦎','🦖','🦕','🐙','🦑','🦐','🦞','🦀','🐡','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆','🦓','🦍','🦧','🐘','🦛','🦏','🐪','🐫','🦒','🦘','🐃','','🐄','🐎','🐖','🐏','🐑','🦙','🐐','🦌','🐕','🐩','🦮','🐈','🐓','🦃','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦦','🦥','🐁','🐀','🐿️','🦔','🐾','🐉','🐲'],
-    food: ['🍏','🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🫐','🍈','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🍆','🥑','🥦','🥬','🥒','🌶️','🫑','🌽','🥕','🫒','🧄','🧅','🥔','','🥐','🥖','🍞','🥖','🥨','🧀','🥚','🍳','🧈','🥞','🧇','🥓','🌭','🍔','🍟','🍕','🫓','🥙','🌮','🌯','🫔','🥗','🥘','🫕','🥫','🍝','🍜','🍲','🍛','🍣','🍱','🥟','','🍤','🍙','🍘','🍥','🥠','🥮','🍢','🍡','🍧','🍨','🍦','🥧','🧁','🍰','🎂','🍮','🍭','🍬','🍫','🍿','🍩','🍪','🌰','🥜','🍯','🥛','🫗','🍼','🫖','☕','🍵','🧃','🥤','🧋','🍶','🍺','🍻','🥂','🍷','🥃','🍸','🍹','🧉','🍾','🧊','🥄','🍴','🍽️','🥣','🥡','🥢','🧂'],
-    activities: ['⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🪀','🏓','🏸','🏒','🏑','🥍','🏏','🪃','🥅','⛳','🪁','🏹','🎣','🤿','🥊','🥋','🎽','🛹','🛼','🛷','️','🥌','🎿','⛷️','🏂','🪂','🏋️','🤼','🤸','⛹️','🤺','🤾','🏌️','🏇','🧘','🏄','🏊','🤽','🚣','🧗','🚵','🚴','🏆','🥇','🥈','🥉','🏅','🎖️','🏵️','🎗️','🎫','🎟️','🎪','🤹','🎭','🩰','🎨','🎬','🎤','🎧','🎼','🎹','🥁','🪘','🎷','🎺','🪗','🎸','🪕','🎻','🎲','♟️','🎯','🎳','🎮','🎰','🧩'],
-    travel: ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🛻','🚚','🚛','🚜','🏍️','🛵','🚲','🛴','🛺','🚨','🚔','🚍','🚖','🚘','🚡','🚠','🚟','🚃','🚋','🚞','🚝','🚄','🚅','🚈','🚇','🚆','🚉','✈️','🛫','🛬','🛩️','💺','🛰️','🚀','🛸','🚁','🛶','⛵','🚤','🛥️','🛳️','⛴️','🚢','⚓','🪝','⛽','🚧','🚦','🚥','🗺️','🗿','🗽','🗼','🏰','🏯','🏟️','🎡','🎢','🎠','⛲','⛱️','🏖️','🏝️','🏜️','🌋','⛰️','🏔️','🗻','🏕️','⛺','🛖','🏠','🏡','🏘️','🏚️','🏗️','🏭','🏢','🏬','🏣','🏤','🏥','🏦','🏨','🏪','🏫','🏩','💒','🏛️','⛪','🕌','🕍','🛕','🕋','⛩️','🛤️','🛣️','🗾','🎑','🏞️','🌅','🌄','🌠','🎇','🎆','🌇','🌆','🏙️','🌃','🌌','🌉','🌁'],
+    animals: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🐣','🦆','🦅','','🦇','🐺','🦄','🐝','🦋','🐌','🐞','🐜','🦟','🦗','🕷️','🦂','🐢','🐍','🦎','🦖','🦕','🐙','🦑','🦐','🦞','🦀','🐡','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆','🦓','🦍','🦧','🐘','🦛','🦏','🐪','🐫','🦒','🦘','🐃','','🐎','','🐏','🐑','🦙','🐐','🦌','🐕','🐩','🦮','🐈','🐓','🦃','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦦','🦥','🐁','🐀','🐿️','🦔','🐾','🐉','🐲'],
+    food: ['🍏','🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🫐','🍈','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🍆','🥑','🥦','🥬','🥒','🌶️','🫑','🌽','🥕','🫒','🧄','🧅','🥔','🥐','🥖','🍞','🥨','🧀','🥚','🍳','🧈','🥞','🧇','🥓','🌭','🍔','🍟','🍕','🫓','🥙','🌮','🌯','🫔','🥗','🥘','🫕','🥫','🍝','🍜','🍲','🍛','🍣','🍱','🥟','','🍙','🍘','','🥠','🥮','🍢','🍡','🍧','🍨','🍦','🥧','🧁','🍰','🎂','🍮','🍭','🍬','🍫','🍿','🍩','🍪','🌰','🥜','🍯','🥛','🫗','🍼','🫖','☕','🍵','🧃','🥤','🧋','🍶','🍺','🍻','🥂','🍷','🥃','🍸','🍹','🧉','🍾','🧊','🥄','🍴','🍽️','🥣','🥡','🥢','🧂'],
+    activities: ['⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🪀','🏓','🏸','🏒','🏑','🥍','🏏','🪃','🥅','⛳','🪁','🏹','🎣','🤿','🥊','🥋','🎽','🛹','🛼','🛷','🥌','🎿','⛷️','🏂','🪂','🏋️','🤼','🤸','⛹️','🤺','🤾','🏌️','🏇','🧘','🏄','🏊','🤽','🚣','🧗','🚵','🚴','🏆','🥇','🥈','🥉','🏅','🎖️','🏵️','🎗️','🎫','🎟️','🎪','🤹','🎭','🩰','🎨','🎬','🎤','🎧','🎼','🎹','🥁','🪘','🎷','🎺','🪗','🎸','🪕','🎻','🎲','♟️','🎯','🎳','🎮','🎰','🧩'],
+    travel: ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🛻','🚚','🚛','🚜','🏍️','🛵','🚲','🛴','🛺','🚨','🚔','🚍','🚖','🚘','🚡','🚠','🚟','🚃','🚋','🚞','🚝','🚄','','🚈','🚇','🚆','🚉','✈️','🛫','🛬','🛩️','💺','🛰️','🚀','🛸','🚁','🛶','⛵','🚤','🛥️','🛳️','⛴️','🚢','⚓','🪝','⛽','🚧','🚦','🚥','🗺️','🗿','🗽','🗼','🏰','🏯','🏟️','🎡','🎢','🎠','⛲','⛱️','🏖️','🏝️','🏜️','🌋','⛰️','🏔️','🗻','🏕️','⛺','🛖','🏠','🏡','🏘️','🏚️','🏗️','🏭','🏢','🏬','🏣','🏤','🏥','🏦','🏨','🏪','🏫','🏩','💒','🏛️','⛪','🕌','🕍','🛕','🕋','⛩️','🛤️','🛣️','🗾','🎑','🏞️','🌅','🌄','🌠','🎇','🎆','🌇','🌆','🏙️','🌃','🌌','🌉','🌁'],
     objects: ['⌚','📱','📲','💻','⌨️','🖥️','🖨️','🖱️','🖲️','🕹️','🗜️','💽','💾','💿','📀','📼','📷','📸','📹','🎥','📽️','🎞️','📞','☎️','📟','📠','📺','📻','🎙️','🎚️','🎛️','🧭','⏱️','⏲️','⏰','🕰️','⌛','⏳','📡','🔋','🔌','💡','🔦','🕯️','🪔','🧯','🛢️','💸','💵','💴','💶','💷','🪙','💰','💳','💎','⚖️','🪜','🧰','🪛','🔧','🔨','⚒️','🛠️','⛏️','🪚','🔩','⚙️','🪤','🧱','⛓️','🧲','🔫','💣','🧨','🪓','🔪','🗡️','⚔️','🛡️','🚬','⚰️','🪦','⚱️','🏺','🔮','📿','🧿','💈','⚗️','🔭','🔬','🕳️','🩹','🩺','💊','💉','🩸','🧬','🦠','🧫','🧪','🌡️','🧹','🪠','🧺','🧻','🚽','🚰','🚿','🛁','🛀','🧼','🪥','🪒','🧽','🪣','🧴','🛎️','🔑','🗝️','🚪','🪑','🛋️','🛏️','🛌','🧸','🪆','🖼️','🪞','🪟','🛍️','🛒','🎁','🎈','🎏','🎀','🪄','🪅','🎊','🎉','🎎','🏮','🎐','🧧','✉️','📩','📨','📧','💌','📥','📤','📦','🏷️','🪧','📪','📫','📬','📭','📮','📯','📜','📃','📄','📑','🧾','📊','📈','📉','🗒️','🗓️','📆','📅','🗑️','📇','🗃️','🗳️','🗄️','📋','📁','📂','🗂️','🗞️','📰','📓','📔','📒','📕','📗','📘','📙','📚','📖','🔖','🧷','🔗','📎','🖇️','📐','📏','🧮','📌','📍','✂️','🖊️','🖋️','✒️','🖌️','🖍️','📝','✏️','🔍','🔎','🔏','🔐','🔒','🔓'],
     symbols: ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','☮️','✝️','☪️','🕉️','☸️','✡️','🔯','🕎','☯️','☦️','🛐','⛎','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','🆔','⚛️','🉑','☢️','☣️','📴','📳','🈶','🈚','🈸','🈺','🈷️','✴️','🆚','💮','🉐','㊙️','㊗️','🈴','🈵','🈹','🈲','🅰️','🅱️','🆎','🆑','🅾️','🆘','❌','⭕','🛑','⛔','📛','🚫','💯','💢','♨️','🚷','🚯','🚳','🚱','🔞','📵','🚭','❗','❕','❓','❔','‼️','⁉️','🔅','🔆','〽️','⚠️','🚸','🔱','⚜️','🔰','♻️','✅','🈯','💹','❇️','✳️','❎','🌐','💠','Ⓜ️','🌀','💤','🏧','🚾','♿','🅿️','🛗','🈳','🈂️','🛂','🛃','🛄','🛅','🚹','🚺','🚼','⚧️','🚻','🚮','🎦','📶','🈁','🔣','ℹ️','🔤','🔡','🔠','🆖','🆗','🆙','🆒','🆕','🆓','0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟','🔢','#️⃣','*️⃣','⏏️','▶️','⏸️','⏯️','⏹️','⏺️','⏭️','⏮️','⏩','⏪','⏫','⏬','◀️','🔼','🔽','➡️','⬅️','⬆️','⬇️','↗️','↘️','↙️','↖️','↕️','↔️','↪️','↩️','⤴️','⤵️','🔀','🔁','🔂','🔄','🔃','🎵','🎶','➕','➖','➗','✖️','♾️','💲','💱','™️','©️','®️','👁️‍🗨️','🔚','🔙','🔛','🔝','🔜','〰️','➰','➿','✔️','☑️','🔘','🔴','🟠','🟡','🟢','🔵','🟣','⚫','⚪','🟤','🔺','🔻','🔸','🔹','🔶','🔷','🔳','🔲','▪️','▫️','◾','◽','◼️','◻️','🟥','🟧','🟨','🟩','🟦','🟪','⬛','⬜','🟫','🔈','🔇','🔉','🔊','🔔','🔕','📣','📢','👁️‍🗨️','💬','💭','🗯️','♠️','♣️','♥️','♦️','🃏','🎴','🀄','🕐','🕑','🕒','🕓','🕔','🕕','🕖','🕗','🕘','🕙','🕚','🕛']
 };
@@ -115,6 +116,7 @@ document.querySelectorAll('.emoji-tab').forEach(function(tab) {
 function toggleBgControls() {
   document.getElementById('bgControlsPanel').classList.toggle('show');
   document.getElementById('bannedPanel').classList.remove('show');
+  document.getElementById('videoPermPanel').classList.remove('show');
   document.getElementById('emojiPanel').classList.remove('show');
 }
 function updateBackground() {
@@ -192,9 +194,66 @@ function renderBannedUsersPanel() {
 }
 function toggleBannedPanel() {
   var panel = document.getElementById('bannedPanel'); panel.classList.toggle('show');
-  document.getElementById('bgControlsPanel').classList.remove('show'); document.getElementById('emojiPanel').classList.remove('show');
+  document.getElementById('bgControlsPanel').classList.remove('show'); 
+  document.getElementById('videoPermPanel').classList.remove('show');
+  document.getElementById('emojiPanel').classList.remove('show');
   if (panel.classList.contains('show')) { loadBannedUsers().then(function() { renderBannedUsersPanel(); }); }
 }
+
+function toggleVideoPermPanel() {
+  var panel = document.getElementById('videoPermPanel');
+  panel.classList.toggle('show');
+  document.getElementById('bgControlsPanel').classList.remove('show');
+  document.getElementById('bannedPanel').classList.remove('show');
+  document.getElementById('emojiPanel').classList.remove('show');
+  if (panel.classList.contains('show')) {
+    loadVideoPermissions();
+  }
+}
+
+async function loadVideoPermissions() {
+  var list = document.getElementById('videoPermUsersList');
+  list.innerHTML = '<div class="no-perm-users">Φόρτωση...</div>';
+  try {
+    var result = await client.from('registered_users').select('username, can_video_call').order('username', { ascending: true });
+    list.innerHTML = '';
+    if (result.data && result.data.length > 0) {
+      result.data.forEach(function(user) {
+        var div = document.createElement('div');
+        div.className = 'perm-user-item';
+        var permValue = user.can_video_call;
+        var isChecked = (permValue === true || permValue === 'true' || permValue === 'True');
+        div.innerHTML = '<div class="perm-user-info"><div class="perm-user-name">' + escapeHtml(user.username) + '</div></div>' +
+          '<label class="toggle-switch">' +
+            '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="updateVideoPermission(\'' + escapeHtml(user.username).replace(/'/g, "\\'") + '\', this.checked)">' +
+            '<span class="slider"></span>' +
+          '</label>';
+        list.appendChild(div);
+      });
+    } else {
+      list.innerHTML = '<div class="no-perm-users">Δεν βρέθηκαν χρήστες</div>';
+    }
+  } catch(e) {
+    list.innerHTML = '<div class="no-perm-users">Σφάλμα φόρτωσης</div>';
+  }
+}
+
+async function updateVideoPermission(username, isChecked) {
+  try {
+    var valToSave = isChecked ? 'true' : 'false';
+    var { data, error } = await client
+      .from('registered_users')
+      .update({ can_video_call: valToSave })
+      .eq('username', username.toLowerCase());
+
+    if (error) {
+      alert("❌ ΣΦΑΛΜΑ:\n" + error.message);
+    }
+  } catch (err) {
+    alert("❌ ΣΦΑΛΜΑ: " + err.message);
+  }
+}
+
 function handleBannedWhileOnline() {
   document.getElementById('banNotifOverlay').classList.add('show');
   setTimeout(async function() {
@@ -393,6 +452,7 @@ async function sendMsg() {
 function toggleEmoji() {
   document.getElementById('emojiPanel').classList.toggle('show');
   document.getElementById('bannedPanel').classList.remove('show');
+  document.getElementById('videoPermPanel').classList.remove('show');
   document.getElementById('bgControlsPanel').classList.remove('show');
 }
 
@@ -514,9 +574,7 @@ function subscribeToMessages() {
       
       var msgText = msg.message || '';
       
-      // ===== SIGNALS HANDLING =====
       if (msgText === '[📞 CALL_REJECTED]' || msgText === '[📞 CALL_CANCELLED]' || msgText === '[📞 CALL_BUSY]') {
-        
         var isForMe = (msg.receiver === currentUid) || 
                       String(msg.receiver).startsWith(currentUid + '_') || 
                       currentUid.startsWith(String(msg.receiver) + '_');
@@ -552,19 +610,11 @@ function subscribeToMessages() {
           if (msgText === '[📞 CALL_BUSY]' && isFromTarget) {
             window.callWasRejected = true;
             if (currentCall) { try { currentCall.close(); } catch(e){} }
-            
             var statusEl = document.getElementById('videoCallStatus');
-            if (statusEl) {
-              statusEl.textContent = '🚫 Ο χρήστης είναι απασχολημένος';
-            }
-            
-            // Γρήγορο κλείσιμο
-            setTimeout(function() { 
-              endVideoCall(); 
-            }, 900);
+            if (statusEl) { statusEl.textContent = '🚫 Ο χρήστης είναι απασχολημένος'; }
+            setTimeout(function() { endVideoCall(); }, 900);
           }
         }
-        
         return;
       }
       
@@ -624,7 +674,7 @@ async function registerUser() {
     var existing = await client.from('registered_users').select('uid').eq('username', username.toLowerCase()).maybeSingle();
     if (existing.data) { showLoginError('❌ Αυτό το όνομα είναι ήδη κατοχυρωμένο!'); return; }
     var newUid = 'uid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
-    await client.from('registered_users').insert([{ uid: newUid, username: username.toLowerCase(), password: password, avatar: null, created_at: Date.now() }]);
+    await client.from('registered_users').insert([{ uid: newUid, username: username.toLowerCase(), password: password, avatar: null, created_at: Date.now(), can_video_call: 'true' }]);
     localStorage.setItem('chat_uid', newUid);
     localStorage.setItem('chat_username', username);
     localStorage.setItem('chat_password', password);
@@ -749,7 +799,6 @@ function handleIncomingCall(call) {
 
   if (isUserBusy) {
     try { call.close(); } catch(e) {}
-
     client.from('private_messages').insert([{
       sender: currentUid,
       sender_name: currentUser,
@@ -757,7 +806,6 @@ function handleIncomingCall(call) {
       receiver_name: callerName || '',
       message: '[📞 CALL_BUSY]'
     }]).catch(function(e) {});
-
     return;
   }
 
@@ -797,15 +845,11 @@ function answerIncomingCall() {
   navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(function(stream) {
     localStream = stream;
     document.getElementById('localVideo').srcObject = stream;
-    
     lowerRadioForCall();
-    
     document.getElementById('videoCallStatus').textContent = 'Σε σύνδεση με ' + callerName + '...';
     document.getElementById('videoCallOverlay').classList.add('show');
-    
     call.answer(stream);
     currentCall = call;
-    
     call.on('stream', function(remoteStream) {
       document.getElementById('remoteVideo').srcObject = remoteStream;
       document.getElementById('videoCallStatus').textContent = 'Σε σύνδεση με ' + callerName;
@@ -823,9 +867,7 @@ function answerIncomingCall() {
 async function rejectIncomingCall() {
   var pending = window.pendingIncomingCall;
   if (!pending) return;
-  
   pending.call.close();
-  
   try {
     await client.from('private_messages').insert([{
       sender: currentUid,
@@ -835,11 +877,9 @@ async function rejectIncomingCall() {
       message: '[📞 CALL_REJECTED]'
     }]);
   } catch(e) {}
-  
   window.pendingIncomingCall = null;
   isUserBusy = false;
   activeCallPartnerUid = null;
-  
   var incomingOverlay = document.getElementById('incomingCallOverlay');
   if (incomingOverlay) incomingOverlay.remove();
 }
@@ -856,10 +896,12 @@ async function enterChat(username, uid) {
     document.getElementById('adminClearBtn').classList.add('show');
     document.getElementById('bannedBtn').classList.add('show');
     document.getElementById('clearBtn').classList.add('show');
+    document.getElementById('videoPermBtn').classList.add('show');
   } else {
     isAdmin = false;
     document.getElementById('clearBtn').classList.remove('show');
     document.getElementById('bannedBtn').classList.remove('show');
+    document.getElementById('videoPermBtn').classList.remove('show');
   }
 
   var avatarUrl = localStorage.getItem('user_avatar_' + currentUid);
@@ -1084,7 +1126,29 @@ function restoreRadioAfterCall() {
   }
 }
 
-function startVideoCall() {
+// ========== ΔΙΟΡΘΩΜΕΝΗ ΣΥΝΑΡΤΗΣΗ ==========
+async function startVideoCall() {
+  // Έλεγχος δικαιώματος ΑΠΕΥΘΕΙΑΣ από τη βάση κάθε φορά
+  try {
+    var permResult = await client.from('registered_users')
+      .select('can_video_call')
+      .eq('username', currentUser.toLowerCase())
+      .maybeSingle();
+    
+    if (permResult.data) {
+      var val = permResult.data.can_video_call;
+      var hasPermission = (val === true || val === 'true' || val === 'True');
+      
+      if (!hasPermission) {
+        alert('⛔ Δεν έχεις δικαίωμα βιντεοκλήσης!\nΠαρακαλώ επικοινώνησε με τον διαχειριστή.');
+        return;
+      }
+    }
+  } catch(e) {
+    console.error('Error checking permission:', e);
+  }
+  
+  // Συνέχεια κανονικά
   if (!currentPrivateChat) { alert('Πρέπει να είσαι σε ιδιωτική συνομιλία!'); return; }
   if (!localPeer || !peerReady) { alert('Η σύνδεση δεν είναι έτοιμη.'); return; }
   if (isUserBusy) { alert('Είσαι ήδη σε κλήση!'); return; }
@@ -1099,26 +1163,20 @@ function startVideoCall() {
   navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(function(stream) {
     localStream = stream;
     document.getElementById('localVideo').srcObject = stream;
-    
     lowerRadioForCall();
-    
     var call = localPeer.call(currentPrivateChat, stream);
     if (!call) { 
       alert('Αποτυχία κλήσης.'); 
       endVideoCall(); 
       return; 
     }
-    
     currentCall = call;
 
-    // Timeout 12 δευτερόλεπτα
     var callTimeout = setTimeout(function() {
       if (isUserBusy && currentCall && !document.getElementById('remoteVideo').srcObject) {
         document.getElementById('videoCallStatus').textContent = '⏳ Δεν απάντησε / Απασχολημένος';
         try { currentCall.close(); } catch(e) {}
-        setTimeout(function() {
-          endVideoCall();
-        }, 1200);
+        setTimeout(function() { endVideoCall(); }, 1200);
       }
     }, 12000);
     
@@ -1148,10 +1206,10 @@ function startVideoCall() {
     endVideoCall();
   });
 }
+// ==========================================
 
 async function endVideoCall() {
   restoreRadioAfterCall();
-  
   var remoteVideo = document.getElementById('remoteVideo');
   if (remoteVideo && !remoteVideo.srcObject && activeCallPartnerUid && !window.callWasRejected) {
     try {
@@ -1164,26 +1222,15 @@ async function endVideoCall() {
       }]);
     } catch(e) {}
   }
-  
-  if (currentCall) { 
-    try { currentCall.close(); } catch(e){} 
-    currentCall = null; 
-  }
-  
-  if (localStream) { 
-    localStream.getTracks().forEach(function(track) { track.stop(); }); 
-    localStream = null; 
-  }
-  
+  if (currentCall) { try { currentCall.close(); } catch(e){} currentCall = null; }
+  if (localStream) { localStream.getTracks().forEach(function(track) { track.stop(); }); localStream = null; }
   document.getElementById('localVideo').srcObject = null;
   document.getElementById('remoteVideo').srcObject = null;
   document.getElementById('videoCallOverlay').classList.remove('show');
   document.getElementById('videoCallStatus').textContent = 'Σύνδεση...';
-  
   window.callWasRejected = false;
   isUserBusy = false;
   activeCallPartnerUid = null;
-  
   var incomingOverlay = document.getElementById('incomingCallOverlay');
   if (incomingOverlay) incomingOverlay.remove();
   window.pendingIncomingCall = null;
