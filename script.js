@@ -88,9 +88,9 @@ function playNotificationSound() { if (soundVolume > 0) { notificationSound.curr
 
 var emojiCategories = {
     smileys: ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🥸','🥳','😏','😒','😞','😔','😟','😕','🙁','😖','😫','😩','🥺','😭','😤','😠','😡','🤬','😳','🥶','😨','😰','😥','😓','🤗','🤔','🤫','😶','😐','😑','😬','🙄','😯','😧','😮','😲','😴','🤤','😵','🤐','🥴','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','💩','💀','☠️','👽','🤖','😺','😸','😹','😻','😼','😽','🙀','😿','😾','🙈','🙉','🙊'],
-    animals: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🐣','🦆','🦅','','🦇','🐺','🦄','🐝','🦋','🐌','🐞','🐜','🦟','🦗','🕷️','🦂','🐢','🐍','🦎','🦖','🦕','🐙','🦑','🦐','🦞','🦀','🐡','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆','🦓','🦍','🦧','🐘','🦛','🦏','🐪','🐫','🦒','🦘','🐃','','🐎','','🐏','🐑','🦙','🐐','🦌','🐕','🐩','🦮','🐈','🐓','🦃','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦦','🦥','🐁','🐀','🐿️','🦔','🐾','🐉','🐲'],
+    animals: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🐣','🦆','🦅','','🦇','🐺','🦄','🐝','🦋','🐌','🐞','','🦟','🦗','🕷️','🦂','🐢','🐍','🦎','🦖','🦕','🐙','🦑','🦐','🦞','🦀','🐡','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆','🦓','🦍','🦧','🐘','🦛','🦏','🐪','🐫','🦒','🦘','🐃','','🐎','','🐏','🐑','🦙','🐐','🦌','🐕','🐩','🦮','🐈','🐓','🦃','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦦','🦥','🐁','🐀','🐿️','🦔','🐾','🐉','🐲'],
     food: ['🍏','🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🫐','🍈','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🍆','🥑','🥦','🥬','🥒','🌶️','🫑','🌽','🥕','🫒','🧄','🧅','🥔','🥐','🥖','🍞','🥨','🧀','🥚','🍳','🧈','🥞','🧇','🥓','🌭','🍔','🍟','🍕','🫓','🥙','🌮','🌯','🫔','🥗','🥘','🫕','🥫','🍝','🍜','🍲','🍛','🍣','🍱','🥟','','🍙','🍘','','🥠','🥮','🍢','🍡','🍧','🍨','🍦','🥧','🧁','🍰','🎂','🍮','🍭','🍬','🍫','🍿','🍩','🍪','🌰','🥜','🍯','🥛','🫗','🍼','🫖','☕','🍵','🧃','🥤','🧋','🍶','🍺','🍻','🥂','🍷','🥃','🍸','🍹','🧉','🍾','🧊','🥄','🍴','🍽️','🥣','🥡','🥢','🧂'],
-    activities: ['⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🪀','🏓','🏸','🏒','🏑','🥍','🏏','🪃','🥅','⛳','🪁','🏹','🎣','🤿','🥊','🥋','🎽','🛹','🛼','🛷','🥌','🎿','⛷️','🏂','🪂','🏋️','🤼','🤸','⛹️','🤺','🤾','🏌️','🏇','🧘','🏄','🏊','🤽','🚣','🧗','🚵','🚴','🏆','🥇','🥈','🥉','🏅','🎖️','🏵️','🎗️','🎫','🎟️','🎪','🤹','🎭','🩰','🎨','🎬','🎤','🎧','🎼','🎹','🥁','🪘','🎷','🎺','🪗','🎸','🪕','🎻','🎲','♟️','🎯','🎳','🎮','🎰','🧩'],
+    activities: ['⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🪀','🏓','🏸','🏒','🏑','🥍','🏏','🪃','🥅','⛳','🪁','🏹','🎣','🤿','🥊','🥋','🎽','🛹','🛼','🛷','🥌','🎿','️','🏂','🪂','🏋️','🤼','🤸','⛹️','🤺','🤾','🏌️','🏇','🧘','🏄','🏊','🤽','🚣','🧗','🚵','🚴','🏆','🥇','🥈','🥉','🏅','🎖️','🏵️','🎗️','🎫','🎟️','🎪','🤹','🎭','🩰','🎨','🎬','🎤','🎧','🎼','🎹','🥁','🪘','🎷','🎺','🪗','🎸','🪕','🎻','🎲','♟️','🎯','🎳','🎮','🎰','🧩'],
     travel: ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🛻','🚚','🚛','🚜','🏍️','🛵','🚲','🛴','🛺','🚨','🚔','🚍','🚖','🚘','🚡','🚠','🚟','🚃','🚋','🚞','🚝','🚄','','🚈','🚇','🚆','🚉','✈️','🛫','🛬','🛩️','💺','🛰️','🚀','🛸','🚁','🛶','⛵','🚤','🛥️','🛳️','⛴️','🚢','⚓','🪝','⛽','🚧','🚦','🚥','🗺️','🗿','🗽','🗼','🏰','🏯','🏟️','🎡','🎢','🎠','⛲','⛱️','🏖️','🏝️','🏜️','🌋','⛰️','🏔️','🗻','🏕️','⛺','🛖','🏠','🏡','🏘️','🏚️','🏗️','🏭','🏢','🏬','🏣','🏤','🏥','🏦','🏨','🏪','🏫','🏩','💒','🏛️','⛪','🕌','🕍','🛕','🕋','⛩️','🛤️','🛣️','🗾','🎑','🏞️','🌅','🌄','🌠','🎇','🎆','🌇','🌆','🏙️','🌃','🌌','🌉','🌁'],
     objects: ['⌚','📱','📲','💻','⌨️','🖥️','🖨️','🖱️','🖲️','🕹️','🗜️','💽','💾','💿','📀','📼','📷','📸','📹','🎥','📽️','🎞️','📞','☎️','📟','📠','📺','📻','🎙️','🎚️','🎛️','🧭','⏱️','⏲️','⏰','🕰️','⌛','⏳','📡','🔋','🔌','💡','🔦','🕯️','🪔','🧯','🛢️','💸','💵','💴','💶','💷','🪙','💰','💳','💎','⚖️','🪜','🧰','🪛','🔧','🔨','⚒️','🛠️','⛏️','🪚','🔩','⚙️','🪤','🧱','⛓️','🧲','🔫','💣','🧨','🪓','🔪','🗡️','⚔️','🛡️','🚬','⚰️','🪦','⚱️','🏺','🔮','📿','🧿','💈','⚗️','🔭','🔬','🕳️','🩹','🩺','💊','💉','🩸','🧬','🦠','🧫','🧪','🌡️','🧹','🪠','🧺','🧻','🚽','🚰','🚿','🛁','🛀','🧼','🪥','🪒','🧽','🪣','🧴','🛎️','🔑','🗝️','🚪','🪑','🛋️','🛏️','🛌','🧸','🪆','🖼️','🪞','🪟','🛍️','🛒','🎁','🎈','🎏','🎀','🪄','🪅','🎊','🎉','🎎','🏮','🎐','🧧','✉️','📩','📨','📧','💌','📥','📤','📦','🏷️','🪧','📪','📫','📬','📭','📮','📯','📜','📃','📄','📑','🧾','📊','📈','📉','🗒️','🗓️','📆','📅','🗑️','📇','🗃️','🗳️','🗄️','📋','📁','📂','🗂️','🗞️','📰','📓','📔','📒','📕','📗','📘','📙','📚','📖','🔖','🧷','🔗','📎','🖇️','📐','📏','🧮','📌','📍','✂️','🖊️','🖋️','✒️','🖌️','🖍️','📝','✏️','🔍','🔎','🔏','🔐','🔒','🔓'],
     symbols: ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','☮️','✝️','☪️','🕉️','☸️','✡️','🔯','🕎','☯️','☦️','🛐','⛎','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','🆔','⚛️','🉑','☢️','☣️','📴','📳','🈶','🈚','🈸','🈺','🈷️','✴️','🆚','💮','🉐','㊙️','㊗️','🈴','🈵','🈹','🈲','🅰️','🅱️','🆎','🆑','🅾️','🆘','❌','⭕','🛑','⛔','📛','🚫','💯','💢','♨️','🚷','🚯','🚳','🚱','🔞','📵','🚭','❗','❕','❓','❔','‼️','⁉️','🔅','🔆','〽️','⚠️','🚸','🔱','⚜️','🔰','♻️','✅','🈯','💹','❇️','✳️','❎','🌐','💠','Ⓜ️','🌀','💤','🏧','🚾','♿','🅿️','🛗','🈳','🈂️','🛂','🛃','🛄','🛅','🚹','🚺','🚼','⚧️','🚻','🚮','🎦','📶','🈁','🔣','ℹ️','🔤','🔡','🔠','🆖','🆗','🆙','🆒','🆕','🆓','0️⃣','1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟','🔢','#️⃣','*️⃣','⏏️','▶️','⏸️','⏯️','⏹️','⏺️','⏭️','⏮️','⏩','⏪','⏫','⏬','◀️','🔼','🔽','➡️','⬅️','⬆️','⬇️','↗️','↘️','↙️','↖️','↕️','↔️','↪️','↩️','⤴️','⤵️','🔀','🔁','🔂','🔄','🔃','🎵','🎶','➕','➖','➗','✖️','♾️','💲','💱','™️','©️','®️','👁️‍🗨️','🔚','🔙','🔛','🔝','🔜','〰️','➰','➿','✔️','☑️','🔘','🔴','🟠','🟡','🟢','🔵','🟣','⚫','⚪','🟤','🔺','🔻','🔸','🔹','🔶','🔷','🔳','🔲','▪️','▫️','◾','◽','◼️','◻️','🟥','🟧','🟨','🟩','🟦','🟪','⬛','⬜','🟫','🔈','🔇','🔉','🔊','🔔','🔕','📣','📢','👁️‍🗨️','💬','💭','🗯️','♠️','♣️','♥️','♦️','🃏','🎴','🀄','🕐','🕑','🕒','🕓','🕔','🕕','🕖','🕗','🕘','🕙','🕚','🕛']
@@ -117,6 +117,7 @@ function toggleBgControls() {
   document.getElementById('bgControlsPanel').classList.toggle('show');
   document.getElementById('bannedPanel').classList.remove('show');
   document.getElementById('videoPermPanel').classList.remove('show');
+  document.getElementById('privatePermPanel').classList.remove('show');
   document.getElementById('emojiPanel').classList.remove('show');
 }
 function updateBackground() {
@@ -196,6 +197,7 @@ function toggleBannedPanel() {
   var panel = document.getElementById('bannedPanel'); panel.classList.toggle('show');
   document.getElementById('bgControlsPanel').classList.remove('show'); 
   document.getElementById('videoPermPanel').classList.remove('show');
+  document.getElementById('privatePermPanel').classList.remove('show');
   document.getElementById('emojiPanel').classList.remove('show');
   if (panel.classList.contains('show')) { loadBannedUsers().then(function() { renderBannedUsersPanel(); }); }
 }
@@ -205,6 +207,7 @@ function toggleVideoPermPanel() {
   panel.classList.toggle('show');
   document.getElementById('bgControlsPanel').classList.remove('show');
   document.getElementById('bannedPanel').classList.remove('show');
+  document.getElementById('privatePermPanel').classList.remove('show');
   document.getElementById('emojiPanel').classList.remove('show');
   if (panel.classList.contains('show')) {
     loadVideoPermissions();
@@ -244,6 +247,61 @@ async function updateVideoPermission(username, isChecked) {
     var { data, error } = await client
       .from('registered_users')
       .update({ can_video_call: valToSave })
+      .eq('username', username.toLowerCase());
+
+    if (error) {
+      alert("❌ ΣΦΑΛΜΑ:\n" + error.message);
+    }
+  } catch (err) {
+    alert("❌ ΣΦΑΛΜΑ: " + err.message);
+  }
+}
+
+function togglePrivatePermPanel() {
+  var panel = document.getElementById('privatePermPanel');
+  panel.classList.toggle('show');
+  document.getElementById('bgControlsPanel').classList.remove('show');
+  document.getElementById('bannedPanel').classList.remove('show');
+  document.getElementById('videoPermPanel').classList.remove('show');
+  document.getElementById('emojiPanel').classList.remove('show');
+  if (panel.classList.contains('show')) {
+    loadPrivatePermissions();
+  }
+}
+
+async function loadPrivatePermissions() {
+  var list = document.getElementById('privatePermUsersList');
+  list.innerHTML = '<div class="no-perm-users">Φόρτωση...</div>';
+  try {
+    var result = await client.from('registered_users').select('username, can_private_chat').order('username', { ascending: true });
+    list.innerHTML = '';
+    if (result.data && result.data.length > 0) {
+      result.data.forEach(function(user) {
+        var div = document.createElement('div');
+        div.className = 'perm-user-item';
+        var permValue = user.can_private_chat;
+        var isChecked = (permValue === true || permValue === 'true' || permValue === 'True');
+        div.innerHTML = '<div class="perm-user-info"><div class="perm-user-name">' + escapeHtml(user.username) + '</div></div>' +
+          '<label class="toggle-switch">' +
+            '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onclick="updatePrivatePermission(\'' + escapeHtml(user.username).replace(/'/g, "\\'") + '\', this.checked)">' +
+            '<span class="slider"></span>' +
+          '</label>';
+        list.appendChild(div);
+      });
+    } else {
+      list.innerHTML = '<div class="no-perm-users">Δεν βρέθηκαν χρήστες</div>';
+    }
+  } catch(e) {
+    list.innerHTML = '<div class="no-perm-users">Σφάλμα φόρτωσης</div>';
+  }
+}
+
+async function updatePrivatePermission(username, isChecked) {
+  try {
+    var valToSave = isChecked ? 'true' : 'false';
+    var { data, error } = await client
+      .from('registered_users')
+      .update({ can_private_chat: valToSave })
       .eq('username', username.toLowerCase());
 
     if (error) {
@@ -423,6 +481,26 @@ async function deleteImage(msgId, deletehash, buttonElement, isPrivate) {
   buttonElement.disabled = false; buttonElement.textContent = '🗑️ Διαγραφή';
 }
 
+async function hasPrivateChatPermission(receiverName) {
+  if (isAdmin) return true;
+  if (receiverName && String(receiverName).toLowerCase() === 'sakis') return true;
+
+  try {
+    var permResult = await client.from('registered_users')
+      .select('can_private_chat')
+      .eq('username', currentUser.toLowerCase())
+      .maybeSingle();
+
+    if (permResult.error) return false;
+    if (!permResult.data) return false;
+
+    var val = permResult.data.can_private_chat;
+    return (val === true || val === 'true' || val === 'True');
+  } catch (e) {
+    return false;
+  }
+}
+
 async function sendMsg() {
   var input = document.getElementById('msgInput');
   var text = input.value.trim();
@@ -435,6 +513,14 @@ async function sendMsg() {
           if (uid === currentPrivateChat) receiverName = onlineUsers[uid].username;
         });
       }
+
+      var allowed = await hasPrivateChatPermission(receiverName);
+      if (!allowed) {
+        alert('⛔ Δεν έχεις δικαίωμα ιδιωτικού μηνύματος σε άλλους χρήστες!\nΜπορείς να μιλήσεις μόνο στον Διαχειριστή ή ζήτησε έγκριση.');
+        closePrivateChat();
+        return;
+      }
+
       await client.from('private_messages').insert([{
         sender: currentUid,
         sender_name: currentUser,
@@ -453,6 +539,7 @@ function toggleEmoji() {
   document.getElementById('emojiPanel').classList.toggle('show');
   document.getElementById('bannedPanel').classList.remove('show');
   document.getElementById('videoPermPanel').classList.remove('show');
+  document.getElementById('privatePermPanel').classList.remove('show');
   document.getElementById('bgControlsPanel').classList.remove('show');
 }
 
@@ -504,6 +591,13 @@ function triggerImageUpload() { document.getElementById('imageUploadInput').clic
 async function startPrivateChat(uid, username) {
   if (uid === currentUid) return;
   if (!onlineUsers[uid]) { alert('Ο χρήστης δεν είναι online!'); return; }
+
+  var allowed = await hasPrivateChatPermission(username);
+  if (!allowed) {
+    alert('⛔ Δεν έχεις δικαίωμα ιδιωτικού μηνύματος σε άλλους χρήστες!\nΜπορείς να μιλήσεις μόνο στον Διαχειριστή ή ζήτησε έγκριση.');
+    return;
+  }
+
   currentPrivateChat = uid;
   currentPrivateChatName = username;
   if (unreadPrivateMessages[uid]) { delete unreadPrivateMessages[uid]; updateUserList(); }
@@ -536,6 +630,14 @@ async function handleImageUpload(event) {
           if (uid === currentPrivateChat) receiverName = onlineUsers[uid].username;
         });
       }
+
+      var allowedImg = await hasPrivateChatPermission(receiverName);
+      if (!allowedImg) {
+        alert('⛔ Δεν έχεις δικαίωμα ιδιωτικού μηνύματος σε άλλους χρήστες!');
+        closePrivateChat();
+        return;
+      }
+
       await client.from('private_messages').insert([{
         sender: currentUid,
         sender_name: currentUser,
@@ -674,7 +776,7 @@ async function registerUser() {
     var existing = await client.from('registered_users').select('uid').eq('username', username.toLowerCase()).maybeSingle();
     if (existing.data) { showLoginError('❌ Αυτό το όνομα είναι ήδη κατοχυρωμένο!'); return; }
     var newUid = 'uid_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
-    await client.from('registered_users').insert([{ uid: newUid, username: username.toLowerCase(), password: password, avatar: null, created_at: Date.now(), can_video_call: 'true' }]);
+    await client.from('registered_users').insert([{ uid: newUid, username: username.toLowerCase(), password: password, avatar: null, created_at: Date.now(), can_video_call: 'true', can_private_chat: 'false' }]);
     localStorage.setItem('chat_uid', newUid);
     localStorage.setItem('chat_username', username);
     localStorage.setItem('chat_password', password);
@@ -897,11 +999,13 @@ async function enterChat(username, uid) {
     document.getElementById('bannedBtn').classList.add('show');
     document.getElementById('clearBtn').classList.add('show');
     document.getElementById('videoPermBtn').classList.add('show');
+    document.getElementById('privatePermBtn').classList.add('show');
   } else {
     isAdmin = false;
     document.getElementById('clearBtn').classList.remove('show');
     document.getElementById('bannedBtn').classList.remove('show');
     document.getElementById('videoPermBtn').classList.remove('show');
+    document.getElementById('privatePermBtn').classList.remove('show');
   }
 
   var avatarUrl = localStorage.getItem('user_avatar_' + currentUid);
@@ -975,6 +1079,7 @@ async function logoutChat() {
   if (!confirm("⚠️ Χρειάζεται πραγματικά να αποσυνδεθείτε;\n\nΗ αποσύνδεση είναι απαραίτητη μόνο αν θέλετε να συνδεθείτε από άλλον browser ή συσκευή.\n\nΑν αποσυνδεθείτε, η αυτόματη είσοδος θα απενεργοποιηθεί και θα χρειαστεί να βάλετε ξανά το όνομα χρήστη και τον κωδικό σας.\n\nΘέλετε να συνεχίσετε;")) return; 
   
   endVideoCall();
+  closeTvPopup();
   if (localPeer) { try { localPeer.destroy(); } catch(e) {} localPeer = null; peerReady = false; }
   
   document.getElementById('playerIframe').src = '';
@@ -1102,6 +1207,14 @@ async function sendAudioMessage() {
         if (!receiverName) {
           Object.keys(onlineUsers).forEach(function(uid) { if (uid === currentPrivateChat) receiverName = onlineUsers[uid].username; });
         }
+
+        var allowedAudio = await hasPrivateChatPermission(receiverName);
+        if (!allowedAudio) {
+          alert('⛔ Δεν έχεις δικαίωμα ιδιωτικού μηνύματος σε άλλους χρήστες!');
+          closePrivateChat();
+          return;
+        }
+
         await client.from('private_messages').insert([{ sender: currentUid, sender_name: currentUser, receiver: currentPrivateChat, receiver_name: receiverName, message: '[🎙️ Ηχητικό Μήνυμα]', audio_url: audioUrl }]);
       } else {
         await client.from('messages').insert([{ user_id: currentUid, username: currentUser, text: '[🎙️ Ηχητικό Μήνυμα]', audio_url: audioUrl }]);
@@ -1126,9 +1239,7 @@ function restoreRadioAfterCall() {
   }
 }
 
-// ========== ΔΙΟΡΘΩΜΕΝΗ ΣΥΝΑΡΤΗΣΗ ==========
 async function startVideoCall() {
-  // Έλεγχος δικαιώματος ΑΠΕΥΘΕΙΑΣ από τη βάση κάθε φορά
   try {
     var permResult = await client.from('registered_users')
       .select('can_video_call')
@@ -1148,7 +1259,6 @@ async function startVideoCall() {
     console.error('Error checking permission:', e);
   }
   
-  // Συνέχεια κανονικά
   if (!currentPrivateChat) { alert('Πρέπει να είσαι σε ιδιωτική συνομιλία!'); return; }
   if (!localPeer || !peerReady) { alert('Η σύνδεση δεν είναι έτοιμη.'); return; }
   if (isUserBusy) { alert('Είσαι ήδη σε κλήση!'); return; }
@@ -1206,7 +1316,6 @@ async function startVideoCall() {
     endVideoCall();
   });
 }
-// ==========================================
 
 async function endVideoCall() {
   restoreRadioAfterCall();
@@ -1270,3 +1379,108 @@ setInterval(function() {
     } catch(e) {}
   }
 }, 20000);
+
+var isTvOpen = false;
+
+function toggleTvPopup() {
+  if (isTvOpen) { closeTvPopup(); } else { openTvPopup(); }
+}
+
+function openTvPopup() {
+  isTvOpen = true;
+  var container = document.getElementById('tvPopupContainer');
+  if (!container) return;
+  container.classList.add('show');
+  document.getElementById('tvIframe').src = 'live.html';
+
+  lowerRadioForCall();
+
+  container.style.left = '50%';
+  container.style.top = '50%';
+  container.style.transform = 'translate(-50%, -50%)';
+}
+
+function closeTvPopup() {
+  isTvOpen = false;
+  var container = document.getElementById('tvPopupContainer');
+  if (container) container.classList.remove('show');
+  var tvFrame = document.getElementById('tvIframe');
+  if (tvFrame) tvFrame.src = '';
+
+  restoreRadioAfterCall();
+}
+
+var tvPopupContainer = document.getElementById('tvPopupContainer');
+var tvPopupHeader = document.getElementById('tvPopupHeader');
+var isDragging = false;
+var startX, startY, initialLeft, initialTop;
+
+if (tvPopupHeader) {
+  tvPopupHeader.addEventListener('mousedown', function(e) {
+    if (e.target.classList.contains('tv-popup-close')) return;
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+
+    var rect = tvPopupContainer.getBoundingClientRect();
+    tvPopupContainer.style.transform = 'none';
+    tvPopupContainer.style.left = rect.left + 'px';
+    tvPopupContainer.style.top = rect.top + 'px';
+
+    initialLeft = rect.left;
+    initialTop = rect.top;
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+    e.preventDefault();
+  });
+
+  tvPopupHeader.addEventListener('touchstart', function(e) {
+    if (e.target.classList.contains('tv-popup-close')) return;
+    var t = e.touches[0];
+    isDragging = true;
+    startX = t.clientX;
+    startY = t.clientY;
+
+    var rect = tvPopupContainer.getBoundingClientRect();
+    tvPopupContainer.style.transform = 'none';
+    tvPopupContainer.style.left = rect.left + 'px';
+    tvPopupContainer.style.top = rect.top + 'px';
+
+    initialLeft = rect.left;
+    initialTop = rect.top;
+
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchend', onTouchEnd);
+  }, { passive: true });
+}
+
+function onMouseMove(e) {
+  if (!isDragging) return;
+  var dx = e.clientX - startX;
+  var dy = e.clientY - startY;
+  tvPopupContainer.style.left = (initialLeft + dx) + 'px';
+  tvPopupContainer.style.top = (initialTop + dy) + 'px';
+}
+
+function onMouseUp() {
+  isDragging = false;
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseup', onMouseUp);
+}
+
+function onTouchMove(e) {
+  if (!isDragging) return;
+  e.preventDefault();
+  var t = e.touches[0];
+  var dx = t.clientX - startX;
+  var dy = t.clientY - startY;
+  tvPopupContainer.style.left = (initialLeft + dx) + 'px';
+  tvPopupContainer.style.top = (initialTop + dy) + 'px';
+}
+
+function onTouchEnd() {
+  isDragging = false;
+  document.removeEventListener('touchmove', onTouchMove);
+  document.removeEventListener('touchend', onTouchEnd);
+}

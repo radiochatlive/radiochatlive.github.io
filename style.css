@@ -128,8 +128,8 @@ body {
   cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
 }
 .action-btn:hover { background: rgba(233, 69, 96, 0.2); border-color: rgba(233, 69, 96, 0.5); transform: translateY(-2px); }
-.banned-btn-header, .clear-btn-header, .video-perm-btn-header { display: none; }
-.banned-btn-header.show, .clear-btn-header.show, .video-perm-btn-header.show { display: flex; }
+.banned-btn-header, .clear-btn-header, .video-perm-btn-header, .private-perm-btn-header { display: none; }
+.banned-btn-header.show, .clear-btn-header.show, .video-perm-btn-header.show, .private-perm-btn-header.show { display: flex; }
 #radioBtn.playing { animation: radioPulse 1.5s infinite; background: rgba(124, 58, 237, 0.3); border-color: #a855f7; }
 @keyframes radioPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.8)); } }
 
@@ -267,19 +267,19 @@ body {
 .control-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #e94560; cursor: pointer; box-shadow: 0 0 10px rgba(233, 69, 96, 0.5); }
 .control-value { color: #10b981; font-size: 0.85em; margin-top: 6px; font-weight: 600; }
 
-.banned-panel, .video-perm-panel { 
+.banned-panel, .video-perm-panel, .private-perm-panel { 
   position: absolute; bottom: 80px; right: 20px; 
   background: rgba(22, 33, 62, 0.98); backdrop-filter: blur(20px);
   border-radius: 20px; padding: 24px; width: 340px; max-width: calc(100vw - 40px); max-height: 450px; 
   box-shadow: 0 20px 60px rgba(0,0,0,0.7); z-index: 101; display: none; 
   border: 1px solid rgba(220, 38, 38, 0.4); flex-direction: column; 
 }
-.banned-panel.show, .video-perm-panel.show { display: flex; }
-.banned-panel-header, .video-perm-panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.banned-panel h3, .video-perm-panel h3 { color: #ef4444; font-size: 1.1em; font-weight: 600; display: flex; align-items: center; gap: 8px; margin: 0; }
-.close-banned-btn, .close-video-perm-btn { background: none; border: none; color: #9ca3af; font-size: 1.4em; cursor: pointer; transition: color 0.2s; }
-.close-banned-btn:hover, .close-video-perm-btn:hover { color: #fff; }
-.banned-users-list, .video-perm-users-list { overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; max-height: 340px; }
+.banned-panel.show, .video-perm-panel.show, .private-perm-panel.show { display: flex; }
+.banned-panel-header, .video-perm-panel-header, .private-perm-panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.banned-panel h3, .video-perm-panel h3, .private-perm-panel h3 { color: #ef4444; font-size: 1.1em; font-weight: 600; display: flex; align-items: center; gap: 8px; margin: 0; }
+.close-banned-btn, .close-video-perm-btn, .close-private-perm-btn { background: none; border: none; color: #9ca3af; font-size: 1.4em; cursor: pointer; transition: color 0.2s; }
+.close-banned-btn:hover, .close-video-perm-btn:hover, .close-private-perm-btn:hover { color: #fff; }
+.banned-users-list, .video-perm-users-list, .private-perm-users-list { overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; max-height: 340px; }
 .banned-user-item, .perm-user-item { display: flex; align-items: center; justify-content: space-between; background: rgba(15, 15, 30, 0.6); padding: 12px 16px; border-radius: 12px; border: 1px solid rgba(220, 38, 38, 0.2); }
 .banned-user-info, .perm-user-info { flex: 1; min-width: 0; }
 .banned-user-name, .perm-user-name { font-weight: 600; color: #fff; font-size: 0.95em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -434,7 +434,7 @@ input:checked + .slider:before { transform: translateX(20px); }
 ::-webkit-scrollbar-thumb { background: rgba(233, 69, 96, 0.5); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(233, 69, 96, 0.8); }
 
-.messages, .user-list, .emoji-content, .banned-users-list, .video-perm-users-list {
+.messages, .user-list, .emoji-content, .banned-users-list, .video-perm-users-list, .private-perm-users-list {
   scrollbar-width: thin;
   scrollbar-color: rgba(233, 69, 96, 0.5) rgba(15, 15, 30, 0.3);
 }
@@ -456,7 +456,7 @@ input:checked + .slider:before { transform: translateX(20px); }
   .player-panel { right: 230px; }
   .msg { max-width: 70%; }
   .input-area { padding: 12px 16px; }
-  .emoji-panel, .bg-controls-panel, .banned-panel, .video-perm-panel { width: 320px; max-width: calc(100vw - 40px); }
+  .emoji-panel, .bg-controls-panel, .banned-panel, .video-perm-panel, .private-perm-panel { width: 320px; max-width: calc(100vw - 40px); }
 }
 @media (max-width: 899px) and (min-width: 769px) {
   .header { padding: 10px 14px; }
@@ -464,7 +464,7 @@ input:checked + .slider:before { transform: translateX(20px); }
   .sidebar { width: 210px; }
   .player-panel { right: 210px; }
   .msg { max-width: 75%; }
-  .emoji-panel, .bg-controls-panel, .banned-panel, .video-perm-panel { width: calc(100vw - 32px); max-width: 360px; left: 16px; right: 16px; }
+  .emoji-panel, .bg-controls-panel, .banned-panel, .video-perm-panel, .private-perm-panel { width: calc(100vw - 32px); max-width: 360px; left: 16px; right: 16px; }
 }
 @media (max-width: 768px) {
   .sidebar { position: fixed; top: 0; right: -300px; height: 100vh; z-index: 600; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1); width: 280px; box-shadow: -10px 0 40px rgba(0,0,0,0.5); }
@@ -484,7 +484,7 @@ input:checked + .slider:before { transform: translateX(20px); }
   .input-wrapper { border-radius: 20px; padding: 6px 6px 6px 12px; gap: 6px; }
   .input-field { font-size: 0.95em; padding: 8px 0; }
   .send-btn { width: 42px; height: 42px; }
-  .emoji-panel, .bg-controls-panel, .banned-panel, .video-perm-panel { width: calc(100vw - 32px); left: 16px; right: 16px; bottom: 75px; }
+  .emoji-panel, .bg-controls-panel, .banned-panel, .video-perm-panel, .private-perm-panel { width: calc(100vw - 32px); left: 16px; right: 16px; bottom: 75px; }
   .player-panel { width: 100%; right: 0; height: 100vh; }
   .private-header { padding: 10px 14px; }
   .ban-notification-popup, .ban-type-popup, .clear-confirmation-popup, .audio-preview-popup { padding: 24px; }
@@ -521,7 +521,7 @@ input:checked + .slider:before { transform: translateX(20px); }
   .msg { max-width: 75%; }
   .input-area { padding: 6px 10px; }
   .emoji-panel { height: 220px; bottom: 55px; }
-  .bg-controls-panel, .banned-panel, .video-perm-panel { bottom: 55px; }
+  .bg-controls-panel, .banned-panel, .video-perm-panel, .private-perm-panel { bottom: 55px; }
   .player-panel { height: 100vh; }
 }
 
@@ -762,4 +762,47 @@ input:checked + .slider:before { transform: translateX(20px); }
   .video-call-container { width: 95vw; aspect-ratio: 9/16; max-height: 80vh; }
   #localVideo { width: 100px; height: 130px; bottom: 90px; right: 15px; }
   .video-call-btn.hangup { padding: 12px 24px; font-size: 1em; }
+}
+
+/* --- Live TV Popup Styles --- */
+.tv-btn-header { display: flex; }
+
+.tv-popup-container {
+  position: fixed;
+  width: 600px; height: 400px; min-width: 320px; min-height: 200px;
+  background: rgba(22, 33, 62, 0.95); backdrop-filter: blur(20px);
+  border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  resize: both;
+  z-index: 2000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.tv-popup-container.show { display: flex; }
+
+.tv-popup-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px; background: linear-gradient(90deg, #7c3aed, #4f46e5);
+  cursor: move;
+  user-select: none; flex-shrink: 0;
+}
+.tv-popup-header span { color: #fff; font-weight: 600; font-size: 1em; }
+
+.tv-popup-close {
+  background: rgba(255,255,255,0.2); border: none; color: #fff;
+  width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+}
+.tv-popup-close:hover { background: rgba(239, 68, 68, 0.8); transform: scale(1.1); }
+
+#tvIframe {
+  flex: 1; width: 100%; border: none; background: #000;
+}
+
+@media (max-width: 768px) {
+  .tv-popup-container { width: 90vw !important; height: 50vh !important; }
 }

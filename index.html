@@ -4,17 +4,10 @@
   <meta charset="UTF-8">
   <title>Radio Filotimo - Ράδιο Φιλότιμο | Το ερωτικό ραδιόφωνο</title>
   <meta name="google-site-verification" content="ScX6V7kVg1nH1lzx5bVeH-0TwwAD08lsuu7Bokn1a28" />
-  <!-- Μία και σωστή περιγραφή -->
   <meta name="description" content="Radio Filotimo - Το ερωτικό ραδιόφωνο. Το καλύτερο λαϊκό τραγούδι, ζωντανό web radio και chat από τη Ζάκυνθο.">
-  
-  <!-- Ενιαίες λέξεις-κλειδιά (συμπεριλαμβάνοντας ελληνικά και λατινικά) -->
   <meta name="keywords" content="ραδιοφιλότιμο, radio filotimo, ερωτικό ραδιόφωνο, radio live zakynthos, web radio, chat radio, ραδιόφωνο ζάκυνθος">
-  
   <meta name="author" content="Web Radio">
-  
-  <!-- Social Media Image με απόλυτο URL -->
   <meta property="og:image" content="https://radiochatlive.github.io/foto-face.png">
-  
   <link rel="shortcut icon" href="zante.ico">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -83,7 +76,6 @@
     <div class="login-logo">
       <h1>RadioChat <span class="gradient-text">Live</span></h1>
     </div>
-    
     <div class="input-group">
       <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -91,7 +83,6 @@
       </svg>
       <input type="text" id="userIn" placeholder="Όνομα χρήστη" autocomplete="username">
     </div>
-    
     <div class="input-group">
       <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -99,14 +90,11 @@
       </svg>
       <input type="password" id="passIn" placeholder="Κωδικός πρόσβασης" autocomplete="off">
     </div>
-    
     <div id="passHint" class="pass-hint">
       ⚠️ Προσοχή: Χρησιμοποίησε οπωσδήποτε γράμματα, αριθμούς και σύμβολα (π.χ./,-, #, !). Οι πολύ απλοί κωδικοί μπλοκάρονται αυτόματα από τη Google για λόγους ασφαλείας.!
     </div>
-    
     <button class="btn-primary" onclick="goChat(false)">Είσοδος</button>
     <button class="btn-secondary register-btn" onclick="registerUser()">Εγγραφή Λογαριασμού</button>
-    
     <div class="error-toast" id="err"></div>
   </div>
 </div>
@@ -132,9 +120,11 @@
       
       <div class="header-actions">
         <button class="glow-btn" id="radioBtn" onclick="togglePlayer()" title="Ραδιόφωνο">▶️</button>
+        <button class="action-btn tv-btn-header" id="tvBtn" onclick="toggleTvPopup()" title="Live TV">📺</button>
         <button class="action-btn" id="soundBtn" onclick="toggleSound()" title="Ένταση Ήχου">🔊</button>
         <button class="action-btn banned-btn-header" id="bannedBtn" onclick="toggleBannedPanel()" title="Λίστα Banned">⛔</button>
         <button class="action-btn video-perm-btn-header" id="videoPermBtn" onclick="toggleVideoPermPanel()" title="Δικαιώματα Βίντεο">📹🔒</button>
+        <button class="action-btn private-perm-btn-header" id="privatePermBtn" onclick="togglePrivatePermPanel()" title="Δικαιώματα Ιδιωτικών">🔒💬</button>
         <button class="action-btn" onclick="toggleBgControls()" title="Background">🎨</button>
         <button class="action-btn clear-btn-header" id="clearBtn" onclick="showClearConfirmation()" title="Διαγραφή (Admin)">🗑️</button>
         <div class="online-badge"><span class="online-dot"></span> <span id="onlineNum">0</span></div>
@@ -166,6 +156,14 @@
           <button class="close-video-perm-btn" onclick="toggleVideoPermPanel()">✕</button>
         </div>
         <div class="video-perm-users-list" id="videoPermUsersList"><div class="no-perm-users">Φόρτωση...</div></div>
+      </div>
+
+      <div class="private-perm-panel" id="privatePermPanel">
+        <div class="private-perm-panel-header">
+          <h3>🔒 Δικαιώματα Ιδιωτικών Μηνυμάτων</h3>
+          <button class="close-private-perm-btn" onclick="togglePrivatePermPanel()">✕</button>
+        </div>
+        <div class="private-perm-users-list" id="privatePermUsersList"><div class="no-perm-users">Φόρτωση...</div></div>
       </div>
       
       <div class="emoji-panel" id="emojiPanel">
@@ -249,7 +247,6 @@
   </div>
 </div>
 
-<!-- Video Call Overlay -->
 <div class="video-call-overlay" id="videoCallOverlay">
   <div class="video-call-container">
     <video id="remoteVideo" autoplay playsinline></video>
@@ -258,6 +255,17 @@
     <div class="video-call-controls">
       <button class="video-call-btn hangup" onclick="endVideoCall()">📞 Τερματισμός</button>
     </div>
+  </div>
+</div>
+
+<!-- Live TV Popup -->
+<div class="tv-popup-overlay" id="tvPopupOverlay">
+  <div class="tv-popup-container" id="tvPopupContainer">
+    <div class="tv-popup-header" id="tvPopupHeader">
+      <span>📺 Live TV</span>
+      <button class="tv-popup-close" onclick="closeTvPopup()">✕</button>
+    </div>
+    <iframe id="tvIframe" src="" frameborder="0" allow="autoplay; encrypted-media; fullscreen; picture-in-picture"></iframe>
   </div>
 </div>
 
