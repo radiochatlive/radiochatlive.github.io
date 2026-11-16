@@ -71,7 +71,6 @@
         .offline-text { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
         .offline-subtext { font-size: 16px; color: #9ca3af; font-weight: 400; }
 
-        /* ΤΕΡΜΑ ΠΑΝΩ ΔΕΞΙΑ & ΜΙΚΡΟ */
         .live-badge {
             position: absolute; top: 10px; right: 10px;
             background: linear-gradient(135deg, #ff4b4b, #ef4444);
@@ -95,7 +94,6 @@
         }
         body.hide-cursor, body.hide-cursor * { cursor: none !important; }
 
-        /* ΤΕΡΜΑ ΚΑΤΩ ΑΡΙΣΤΕΡΑ & ΠΟΛΥ ΜΙΚΡΑ CONTROLS */
         .player-controls-wrapper {
             position: absolute; bottom: 10px; left: 10px; right: auto;
             display: flex; justify-content: flex-start; z-index: 30; pointer-events: none;
@@ -285,6 +283,7 @@
         window.addEventListener('message', (event) => {
             if (!event.data) return;
 
+            // --- ΥΠΑΡΧΟΥΣΑ ΛΕΙΤΟΥΡΓΙΑ VDO.NINJA ---
             if (event.data.action === 'video-loaded' || 
                 event.data.event === 'wfs-video-loaded' || 
                 event.data.streamID) {
@@ -296,6 +295,24 @@
                 event.data.event === 'video-removed' || 
                 event.data.action === 'stopped') {
                 goOffline();
+            }
+
+            // --- ΝΕΑ ΛΕΙΤΟΥΡΓΙΑ: Έλεγχος έντασης από το κύριο παράθυρο (κατά τη βιντεοκλήση) ---
+            if (event.data.type === 'SET_TV_VOLUME') {
+                const targetVolume = event.data.volume; // 0 (σίγαση) ή 1.0 (επαναφορά)
+                if (targetVolume === 0) {
+                    // Αποθήκευση τρέχουσας έντασης για επαναφορά και σίγαση
+                    if (volumeSlider.value > 0) {
+                        previousVolume = volumeSlider.value;
+                    }
+                    volumeSlider.value = 0;
+                    updateVolume(0);
+                } else {
+                    // Επαναφορά στην προηγούμενη ένταση (ή 100 αν δεν υπήρχε)
+                    const restoreVal = previousVolume > 0 ? previousVolume : 100;
+                    volumeSlider.value = restoreVal;
+                    updateVolume(restoreVal);
+                }
             }
         });
 

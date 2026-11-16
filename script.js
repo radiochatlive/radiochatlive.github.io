@@ -1226,16 +1226,30 @@ async function sendAudioMessage() {
 }
 
 function lowerRadioForCall() {
-  var iframe = document.getElementById('playerIframe');
-  if (iframe && iframe.contentWindow) {
-    iframe.contentWindow.postMessage({ type: 'SET_RADIO_VOLUME', volume: 0 }, '*');
+  // 1. Χαμήλωμα Ραδιοφώνου
+  var radioIframe = document.getElementById('playerIframe');
+  if (radioIframe && radioIframe.contentWindow) {
+    radioIframe.contentWindow.postMessage({ type: 'SET_RADIO_VOLUME', volume: 0 }, '*');
+  }
+  
+  // 2. Χαμήλωμα Τηλεόρασης (μόνο αν είναι ανοιχτή)
+  var tvIframe = document.getElementById('tvIframe');
+  if (tvIframe && tvIframe.contentWindow && isTvOpen) {
+    tvIframe.contentWindow.postMessage({ type: 'SET_TV_VOLUME', volume: 0 }, '*');
   }
 }
 
 function restoreRadioAfterCall() {
-  var iframe = document.getElementById('playerIframe');
-  if (iframe && iframe.contentWindow) {
-    iframe.contentWindow.postMessage({ type: 'SET_RADIO_VOLUME', volume: 1.0 }, '*');
+  // 1. Επαναφορά Ραδιοφώνου
+  var radioIframe = document.getElementById('playerIframe');
+  if (radioIframe && radioIframe.contentWindow) {
+    radioIframe.contentWindow.postMessage({ type: 'SET_RADIO_VOLUME', volume: 1.0 }, '*');
+  }
+  
+  // 2. Επαναφορά Τηλεόρασης (μόνο αν είναι ανοιχτή)
+  var tvIframe = document.getElementById('tvIframe');
+  if (tvIframe && tvIframe.contentWindow && isTvOpen) {
+    tvIframe.contentWindow.postMessage({ type: 'SET_TV_VOLUME', volume: 1.0 }, '*');
   }
 }
 
