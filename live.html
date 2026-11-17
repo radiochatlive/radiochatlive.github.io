@@ -275,21 +275,22 @@
 
         // --- ΕΛΕΓΧΟΣ ΕΝΤΑΣΗΣ ΑΠΟ ΤΟ ΚΥΡΙΟ ΠΑΡΑΘΥΡΟ (ΚΑΤΑ ΤΗ ΒΙΝΤΕΟΚΛΗΣΗ) ---
         window.addEventListener('message', (event) => {
-            if (!event.data) return;
+            if (!event.data || event.data.type !== 'SET_TV_VOLUME') return;
 
-            if (event.data.type === 'SET_TV_VOLUME') {
-                const targetVolume = event.data.volume; // 0 (σίγαση) ή 1.0 (επαναφορά)
-                if (targetVolume === 0) {
-                    if (volumeSlider.value > 0) {
-                        previousVolume = volumeSlider.value;
-                    }
-                    volumeSlider.value = 0;
-                    updateVolume(0);
-                } else {
-                    const restoreVal = previousVolume > 0 ? previousVolume : 100;
-                    volumeSlider.value = restoreVal;
-                    updateVolume(restoreVal);
+            const targetVolume = event.data.volume; // 0 (σίγαση) ή 1.0 (επαναφορά)
+
+            if (targetVolume === 0 || targetVolume === '0') {
+                // Αποθήκευση τρέχουσας έντασης πριν τη σίγαση
+                if (volumeSlider.value > 0) {
+                    previousVolume = volumeSlider.value;
                 }
+                volumeSlider.value = 0;
+                updateVolume(0);
+            } else {
+                // Επαναφορά στην προηγούμενη ένταση (ή 100% αν δεν υπάρχει αποθηκευμένη)
+                const restoreVal = previousVolume > 0 ? previousVolume : 100;
+                volumeSlider.value = restoreVal;
+                updateVolume(restoreVal);
             }
         });
 
