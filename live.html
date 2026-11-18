@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P2P Live Stream Player</title>
+    <title>Live Stream Player</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     
     <style>
         html, body {
@@ -20,12 +19,11 @@
 
         .player-container {
             position: relative; width: 100vw; height: 100vh;
-            display: flex; align-items: center; justify-content: center;
         }
 
-        video {
+        iframe {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: contain; border: none; display: block; z-index: 1;
+            border: none; display: block; z-index: 1;
         }
 
         .loading-overlay {
@@ -92,7 +90,7 @@
 
         .mouse-tracker {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 20; background: transparent; pointer-events: auto;
+            z-index: 20; background: transparent;
         }
         body.hide-cursor, body.hide-cursor * { cursor: none !important; }
 
@@ -146,7 +144,10 @@
         <div class="live-badge">ΖΩΝΤΑΝΑ</div>
         <div class="mouse-tracker" id="tracker"></div>
 
-        <video id="mainVideo" autoplay playsinline></video>
+        <iframe id="vdoPlayer" 
+                src="https://vdo.ninja/?view=SiDsgNa&cleanoutput&transparent&autoplay&api=1&proaudio" 
+                allow="autoplay; autofocus; encrypted-media; fullscreen">
+        </iframe>
 
         <div class="loading-overlay" id="loadingOverlay">
             <div class="loading-icon"><i class="fas fa-satellite-dish"></i></div>
@@ -175,10 +176,7 @@
     </div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const ROOM_ID = urlParams.get('room') || 'tv-live-radio-filotimo';
-
-        const mainVideo = document.getElementById('mainVideo');
+        const iframe = document.getElementById('vdoPlayer');
         const loadingOverlay = document.getElementById('loadingOverlay');
         const offlineOverlay = document.getElementById('offlineOverlay');
         const container = document.getElementById('mainContainer');
@@ -188,23 +186,32 @@
         const volumeIcon = document.getElementById('volumeIcon');
         const fsButton = document.getElementById('fsToggle');
 
+        let lastVideoMessageTime = 0;
         let isLive = false;
         let hasDecided = false;
         let hideTimeout;
         let previousVolume = 50;
-        let peer = null;
-        let heartbeatInterval = null;
+
+        const sendVdoCommand = (command, value) => {
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage({ [command]: value }, '*');
+            }
+        };
+
+        iframe.addEventListener('load', () => {
+            sendVdoCommand('mute', true);
+        });
 
         function updateVolume(val) {
             const ratio = val / 100;
             volumeSlider.style.background = `linear-gradient(to right, #fff 0%, #fff ${val}%, rgba(255,255,255,0.3) ${val}%, rgba(255,255,255,0.3) 100%)`;
 
-            mainVideo.volume = ratio;
             if (val > 0) {
-                mainVideo.muted = false;
+                sendVdoCommand('mute', false);
+                sendVdoCommand('volume', ratio);
                 volumeIcon.innerHTML = val < 50 ? '<i class="fas fa-volume-down"></i>' : '<i class="fas fa-volume-up"></i>';
             } else {
-                mainVideo.muted = true;
+                sendVdoCommand('mute', true);
                 volumeIcon.innerHTML = '<i class="fas fa-volume-mute"></i>';
             }
             showUI();
@@ -259,100 +266,70 @@
             loadingOverlay.classList.add('hidden');
             offlineOverlay.classList.remove('visible');
             container.classList.add('show-live');
+            lastVideoMessageTime = Date.now();
             showUI();
         }
 
         function goOffline() {
+            if (!isLive && hasDecided) return;
             isLive = false;
             hasDecided = true;
             loadingOverlay.classList.add('hidden');
             offlineOverlay.classList.add('visible');
             container.classList.remove('show-live');
             controls.classList.remove('visible');
-            document.body.classList.remove('hide-cursor');
-            mainVideo.srcObject = null;
         }
 
-        // --- ΕΛΕΓΧΟΣ ΕΝΤΑΣΗΣ ΑΠΟ ΤΟ ΚΥΡΙΟ ΠΑΡΑΘΥΡΟ (ΚΑΤΑ ΤΗ ΒΙΝΤΕΟΚΛΗΣΗ) ---
         window.addEventListener('message', (event) => {
-            if (!event.data || event.data.type !== 'SET_TV_VOLUME') return;
+            if (!event.data) return;
 
-            const targetVolume = event.data.volume; // 0 (σίγαση) ή 1.0 (επαναφορά)
+            // --- ΥΠΑΡΧΟΥΣΑ ΛΕΙΤΟΥΡΓΙΑ VDO.NINJA ---
+            if (event.data.action === 'video-loaded' || 
+                event.data.event === 'wfs-video-loaded' || 
+                event.data.streamID) {
+                lastVideoMessageTime = Date.now();
+                goLive();
+            }
+            
+            if (event.data.action === 'stream-dropped' || 
+                event.data.event === 'video-removed' || 
+                event.data.action === 'stopped') {
+                goOffline();
+            }
 
-            if (targetVolume === 0 || targetVolume === '0') {
-                // Αποθήκευση τρέχουσας έντασης πριν τη σίγαση
-                if (volumeSlider.value > 0) {
-                    previousVolume = volumeSlider.value;
+            // --- ΝΕΑ ΛΕΙΤΟΥΡΓΙΑ: Έλεγχος έντασης από το κύριο παράθυρο (κατά τη βιντεοκλήση) ---
+            if (event.data.type === 'SET_TV_VOLUME') {
+                const targetVolume = event.data.volume; // 0 (σίγαση) ή 1.0 (επαναφορά)
+                if (targetVolume === 0) {
+                    // Αποθήκευση τρέχουσας έντασης για επαναφορά και σίγαση
+                    if (volumeSlider.value > 0) {
+                        previousVolume = volumeSlider.value;
+                    }
+                    volumeSlider.value = 0;
+                    updateVolume(0);
+                } else {
+                    // Επαναφορά στην προηγούμενη ένταση (ή 100 αν δεν υπήρχε)
+                    const restoreVal = previousVolume > 0 ? previousVolume : 100;
+                    volumeSlider.value = restoreVal;
+                    updateVolume(restoreVal);
                 }
-                volumeSlider.value = 0;
-                updateVolume(0);
-            } else {
-                // Επαναφορά στην προηγούμενη ένταση (ή 100% αν δεν υπάρχει αποθηκευμένη)
-                const restoreVal = previousVolume > 0 ? previousVolume : 100;
-                volumeSlider.value = restoreVal;
-                updateVolume(restoreVal);
             }
         });
 
-        // PeerJS Viewer Logic
-        function connectViewer() {
-            peer = new Peer();
-
-            peer.on('open', () => {
-                const conn = peer.connect(ROOM_ID);
-                
-                conn.on('open', () => {
-                    conn.send({ type: 'GET_STREAM', viewerId: peer.id });
-
-                    if (heartbeatInterval) clearInterval(heartbeatInterval);
-                    heartbeatInterval = setInterval(() => {
-                        if (conn.open) {
-                            conn.send({ type: 'PING', viewerId: peer.id });
-                        }
-                    }, 3000);
-                });
-
-                conn.on('close', () => {
-                    if (heartbeatInterval) clearInterval(heartbeatInterval);
-                    goOffline();
-                    setTimeout(connectViewer, 3000);
-                });
-            });
-
-            peer.on('call', (call) => {
-                call.answer(); 
-                
-                call.on('stream', (remoteStream) => {
-                    mainVideo.srcObject = remoteStream;
-                    mainVideo.muted = true; // Ξεκινάει muted για το autoplay policy
-                    goLive();
-                    
-                    mainVideo.play().catch(err => {
-                        console.warn("Autoplay blocked:", err);
-                    });
-                });
-
-                call.on('close', () => {
-                    goOffline();
-                    setTimeout(connectViewer, 3000);
-                });
-            });
-
-            peer.on('error', () => {
+        setInterval(() => {
+            if (isLive && iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage({ get_state: true }, '*');
+            }
+            if (isLive && lastVideoMessageTime > 0 && Date.now() - lastVideoMessageTime > 4000) {
                 goOffline();
-                setTimeout(connectViewer, 3000);
-            });
-        }
+            }
+        }, 2000);
 
-        // Αρχικοποίηση σύνδεσης
-        connectViewer();
-
-        // Timeout αν αργήσει να απαντήσει ο host
         setTimeout(() => {
             if (!hasDecided) {
                 goOffline();
             }
-        }, 6000);
+        }, 5000);
 
         updateVolume(0);
     </script>
