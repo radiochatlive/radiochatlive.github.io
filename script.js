@@ -1,6 +1,12 @@
 ﻿const SUPABASE_URL = 'https://hfnzcltouedgzcsykszq.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmbnpjbHRvdWVkZ3pjc3lrc3pxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNDg4MzksImV4cCI6MjA5ODcyNDgzOX0.YzzRX-XIRF40iMpA3GXXUvvUrahtTE7Ru6DCrn4ktFA';
-const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  global: {
+    headers: {
+      'x-session-id': localStorage.getItem('chat_device_unique_id') || ''
+    }
+  }
+});
 
 var currentUser = '';
 var currentUid = '';
