@@ -424,10 +424,6 @@ async function loadPrivateMessages(otherUid, otherName) {
       });
       filtered.forEach(function(msg) { addMessageToUI(msg, true); });
       container.scrollTop = container.scrollHeight;
-      var unreadIds = filtered.filter(function(m) { return m.receiver === currentUid && !m.is_read; }).map(function(m) { return m.id; });
-      if (unreadIds.length > 0) {
-        await client.from('private_messages').update({ is_read: true }).in('id', unreadIds);
-      }
     }
   } catch(e) {}
 }
@@ -743,7 +739,6 @@ function subscribeToMessages() {
       }
       if (currentPrivateChat && (isForMeChat || isFromMeChat)) {
         addMessageToUI(msg, true);
-        if (isForMeChat) { client.from('private_messages').update({ is_read: true }).eq('id', msg.id); }
       }
     })
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'private_messages' }, function(payload) {
@@ -1513,12 +1508,19 @@ function onTouchEnd() {
 async function updateUnreadBadge() {
   try {
     var result = await client.from('private_messages')
-      .select('id', { count: 'exact' })
-      .eq('receiver', currentUid)
-      .eq('is_read', false);
+      .select('id')
+      .eq('receiver', currentUid);
+    var readIds = JSON.parse(localStorage.getItem('read_msg_ids_' + currentUid) || '[]');
+    var unreadCount = 0;
+    if (result.data) {
+      result.data.forEach(function(m) {
+        if (readIds.indexOf(m.id) === -1) unreadCount++;
+      });
+    }
     var badge = document.getElementById('unreadBadge');
-    if (result.count > 0) {
-      badge.textContent = result.count;
+    if (!badge) return;
+    if (unreadCount > 0) {
+      badge.textContent = unreadCount;
       badge.style.display = 'block';
     } else {
       badge.style.display = 'none';
@@ -1535,20 +1537,24 @@ async function loadUnreadInbox() {
     var result = await client.from('private_messages')
       .select('*')
       .eq('receiver', currentUid)
-      .eq('is_read', false)
       .order('timestamp', { ascending: true });
 
-    if (result.data && result.data.length > 0) {
+    if (!result.data) return;
+
+    var readIds = JSON.parse(localStorage.getItem('read_msg_ids_' + currentUid) || '[]');
+    var unread = result.data.filter(function(m) { return readIds.indexOf(m.id) === -1; });
+
+    if (unread.length > 0) {
       var separator = document.createElement('div');
       separator.className = 'unread-separator';
       separator.style.cssText = 'text-align:center; color:#fbbf24; margin:20px 0; font-weight:bold; background:rgba(0,0,0,0.5); padding:10px; border-radius:10px;';
       separator.innerHTML = '📥 Αδιάβαστα μηνύματα:';
       container.appendChild(separator);
 
-      result.data.forEach(function(msg) { addMessageToUI(msg, true); });
+      unread.forEach(function(msg) { addMessageToUI(msg, true); });
 
-      var unreadIds = result.data.map(function(m) { return m.id; });
-      await client.from('private_messages').update({ is_read: true }).in('id', unreadIds);
+      unread.forEach(function(m) { readIds.push(m.id); });
+      localStorage.setItem('read_msg_ids_' + currentUid, JSON.stringify(readIds));
 
       updateUnreadBadge();
       container.scrollTop = container.scrollHeight;
