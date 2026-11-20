@@ -29,6 +29,7 @@ var privateChannel = null;
 var banChannel = null;
 var presenceChannel = null;
 var userVideoPerm = true;
+var readMessageIds = [];
 
 var localPeer = null;
 var currentCall = null;
@@ -42,6 +43,25 @@ if (!localStorage.getItem('chat_device_unique_id')) {
   localStorage.setItem('chat_device_unique_id', fixedId);
 }
 currentSessionId = localStorage.getItem('chat_device_unique_id');
+
+function loadReadMessages() {
+  readMessageIds = JSON.parse(localStorage.getItem('read_msg_ids_' + currentUid) || '[]');
+}
+
+function saveReadMessages() {
+  localStorage.setItem('read_msg_ids_' + currentUid, JSON.stringify(readMessageIds));
+}
+
+function markAsRead(msgId) {
+  if (readMessageIds.indexOf(msgId) === -1) {
+    readMessageIds.push(msgId);
+    saveReadMessages();
+  }
+}
+
+function isMessageRead(msgId) {
+  return readMessageIds.indexOf(msgId) !== -1;
+}
 
 function showLoginError(message) {
   var err = document.getElementById('err');
@@ -94,8 +114,8 @@ function playNotificationSound() { if (soundVolume > 0) { notificationSound.curr
 
 var emojiCategories = {
     smileys: ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🥸','🥳','😏','😒','😞','😔','😟','😕','🙁','😖','😫','😩','🥺','😭','😤','😠','😡','🤬','😳','🥶','😨','😰','😥','😓','🤗','🤔','🤫','😶','😐','😑','😬','🙄','😯','😧','😮','😲','😴','🤤','😵','🤐','🥴','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','💩','💀','☠️','👽','🤖','😺','😸','😹','😻','😼','😽','🙀','😿','😾','🙈','🙉','🙊'],
-    animals: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🐣','🦆','🦅','','🦇','🐺','🦄','🐝','🦋','🐌','🐞','','🦟','🦗','🕷️','🦂','🐢','🐍','🦎','🦖','🦕','🐙','🦑','🦐','🦞','🦀','🐡','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆','🦓','🦍','🦧','🐘','🦛','🦏','🐪','🐫','🦒','🦘','🐃','','🐎','','🐏','🐑','🦙','🐐','🦌','🐕','🐩','🦮','🐈','🐓','🦃','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦦','🦥','🐁','🐀','🐿️','🦔','🐾','🐉','🐲'],
-    food: ['🍏','🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🫐','🍈','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🍆','🥑','🥦','🥬','🥒','🌶️','🫑','🌽','🥕','🫒','🧄','🧅','🥔','🥐','🥖','🍞','🥨','🧀','🥚','🍳','🧈','🥞','🧇','🥓','🌭','🍔','🍟','🍕','🫓','🥙','🌮','🌯','🫔','🥗','🥘','🫕','🥫','🍝','🍜','🍲','🍛','🍣','🍱','🥟','','🍙','🍘','','🥠','🥮','🍢','🍡','🍧','🍨','🍦','🥧','🧁','🍰','🎂','🍮','🍭','🍬','🍫','🍿','🍩','🍪','🌰','🥜','🍯','🥛','🫗','🍼','🫖','☕','🍵','🧃','🥤','🧋','🍶','🍺','🍻','🥂','🍷','🥃','🍸','🍹','🧉','🍾','🧊','🥄','🍴','🍽️','🥣','🥡','🥢','🧂'],
+    animals: ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🙈','🙉','🙊','🐔','🐧','🐦','🐤','🐣','🦆','🦅','','🦇','🐺','🦄','🐝','🦋','🐌','🐞','','🦟','🦗','🕷️','🦂','🐢','🐍','🦎','🦖','🦕','🐙','🦑','🦐','🦞','🦀','🐡','🐠','🐟','🐬','🐳','🐋','🦈','🐊','🐅','🐆','🦓','🦍','🦧','🐘','🦛','🦏','🐪','🐫','🦒','🦘','🐃','','','','🐏','🐑','🦙','🐐','🦌','🐕','🐩','🦮','🐈','🐓','🦃','🦚','🦜','🦢','🦩','🕊️','🐇','🦝','🦨','🦡','🦦','🦥','🐁','🐀','🐿️','🦔','🐾','🐉','🐲'],
+    food: ['🍏','🍎','🍐','🍊','🍋','🍌','🍉','🍇','🍓','🫐','🍈','🍒','🍑','🥭','🍍','🥥','🥝','🍅','🍆','🥑','🥦','🥬','🥒','🌶️','🫑','🌽','🥕','🫒','🧄','🧅','🥔','','🥖','🍞','🥨','🧀','🥚','🍳','🧈','🥞','🧇','🥓','🌭','🍔','🍟','🍕','🫓','🥙','🌮','🌯','🫔','🥗','🥘','🫕','🥫','🍝','🍜','🍲','🍛','🍣','🍱','🥟','','🍙','🍘','','','🥮','🍢','🍡','🍧','🍨','🍦','🥧','🧁','🍰','🎂','🍮','🍭','🍬','🍫','🍿','🍩','🍪','🌰','🥜','🍯','🥛','🫗','🍼','🫖','☕','🍵','🧃','🥤','🧋','🍶','🍺','🍻','🥂','🍷','🥃','🍸','🍹','🧉','🍾','🧊','🥄','🍴','🍽️','🥣','🥡','🥢','🧂'],
     activities: ['⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🪀','🏓','🏸','🏒','🏑','🥍','🏏','🪃','🥅','⛳','🪁','🏹','🎣','🤿','🥊','🥋','🎽','🛹','🛼','🛷','🥌','🎿','️','🏂','🪂','🏋️','🤼','🤸','⛹️','🤺','🤾','🏌️','🏇','🧘','🏄','🏊','🤽','🚣','🧗','🚵','🚴','🏆','🥇','🥈','🥉','🏅','🎖️','🏵️','🎗️','🎫','🎟️','🎪','🤹','🎭','🩰','🎨','🎬','🎤','🎧','🎼','🎹','🥁','🪘','🎷','🎺','🪗','🎸','🪕','🎻','🎲','♟️','🎯','🎳','🎮','🎰','🧩'],
     travel: ['🚗','🚕','🚙','🚌','🚎','🏎️','🚓','🚑','🚒','🚐','🛻','🚚','🚛','🚜','🏍️','🛵','🚲','🛴','🛺','🚨','🚔','🚍','🚖','🚘','🚡','🚠','🚟','🚃','🚋','🚞','🚝','🚄','','🚈','🚇','🚆','🚉','✈️','🛫','🛬','🛩️','💺','🛰️','🚀','🛸','🚁','🛶','⛵','🚤','🛥️','🛳️','⛴️','🚢','⚓','🪝','⛽','🚧','🚦','🚥','🗺️','🗿','🗽','🗼','🏰','🏯','🏟️','🎡','🎢','🎠','⛲','⛱️','🏖️','🏝️','🏜️','🌋','⛰️','🏔️','🗻','🏕️','⛺','🛖','🏠','🏡','🏘️','🏚️','🏗️','🏭','🏢','🏬','🏣','🏤','🏥','🏦','🏨','🏪','🏫','🏩','💒','🏛️','⛪','🕌','🕍','🛕','🕋','⛩️','🛤️','🛣️','🗾','🎑','🏞️','🌅','🌄','🌠','🎇','🎆','🌇','🌆','🏙️','🌃','🌌','🌉','🌁'],
     objects: ['⌚','📱','📲','💻','⌨️','🖥️','🖨️','🖱️','🖲️','🕹️','🗜️','💽','💾','💿','📀','📼','📷','📸','📹','🎥','📽️','🎞️','📞','☎️','📟','📠','📺','📻','🎙️','🎚️','🎛️','🧭','⏱️','⏲️','⏰','🕰️','⌛','⏳','📡','🔋','🔌','💡','🔦','🕯️','🪔','🧯','🛢️','💸','💵','💴','💶','💷','🪙','💰','💳','💎','⚖️','🪜','🧰','🪛','🔧','🔨','⚒️','🛠️','⛏️','🪚','🔩','⚙️','🪤','🧱','⛓️','🧲','🔫','💣','🧨','🪓','🔪','🗡️','⚔️','🛡️','🚬','⚰️','🪦','⚱️','🏺','🔮','📿','🧿','💈','⚗️','🔭','🔬','🕳️','🩹','🩺','💊','💉','🩸','🧬','🦠','🧫','🧪','🌡️','🧹','🪠','🧺','🧻','🚽','🚰','🚿','🛁','🛀','🧼','🪥','🪒','🧽','🪣','🧴','🛎️','🔑','🗝️','🚪','🪑','🛋️','🛏️','🛌','🧸','🪆','🖼️','🪞','🪟','🛍️','🛒','🎁','🎈','🎏','🎀','🪄','🪅','🎊','🎉','🎎','🏮','🎐','🧧','✉️','📩','📨','📧','💌','📥','📤','📦','🏷️','🪧','📪','📫','📬','📭','📮','📯','📜','📃','📄','📑','🧾','📊','📈','📉','🗒️','🗓️','📆','📅','🗑️','📇','🗃️','🗳️','🗄️','📋','📁','📂','🗂️','🗞️','📰','📓','📔','📒','📕','📗','📘','📙','📚','📖','🔖','🧷','🔗','📎','🖇️','📐','📏','🧮','📌','📍','✂️','🖊️','🖋️','✒️','🖌️','🖍️','📝','✏️','🔍','🔎','🔏','🔐','🔒','🔓'],
@@ -999,6 +1019,7 @@ async function enterChat(username, uid) {
   currentUser = username;
   currentUid = uid;
   connectTime = Date.now();
+  loadReadMessages();
 
   try { await initPeerJS(); } catch(e) {}
 
@@ -1510,13 +1531,14 @@ async function updateUnreadBadge() {
     var result = await client.from('private_messages')
       .select('id')
       .eq('receiver', currentUid);
-    var readIds = JSON.parse(localStorage.getItem('read_msg_ids_' + currentUid) || '[]');
+    
+    if (!result.data) return;
+    
     var unreadCount = 0;
-    if (result.data) {
-      result.data.forEach(function(m) {
-        if (readIds.indexOf(m.id) === -1) unreadCount++;
-      });
-    }
+    result.data.forEach(function(m) {
+      if (!isMessageRead(m.id)) unreadCount++;
+    });
+    
     var badge = document.getElementById('unreadBadge');
     if (!badge) return;
     if (unreadCount > 0) {
@@ -1530,8 +1552,14 @@ async function updateUnreadBadge() {
 
 async function loadUnreadInbox() {
   var container = document.getElementById('msgContainer');
+  
   var existingSep = container.querySelector('.unread-separator');
-  if (existingSep) existingSep.remove();
+  if (existingSep) {
+    existingSep.remove();
+    var unreadMsgs = container.querySelectorAll('.unread-msg');
+    unreadMsgs.forEach(function(msg) { msg.remove(); });
+    return;
+  }
 
   try {
     var result = await client.from('private_messages')
@@ -1541,8 +1569,7 @@ async function loadUnreadInbox() {
 
     if (!result.data) return;
 
-    var readIds = JSON.parse(localStorage.getItem('read_msg_ids_' + currentUid) || '[]');
-    var unread = result.data.filter(function(m) { return readIds.indexOf(m.id) === -1; });
+    var unread = result.data.filter(function(m) { return !isMessageRead(m.id); });
 
     if (unread.length > 0) {
       var separator = document.createElement('div');
@@ -1551,10 +1578,12 @@ async function loadUnreadInbox() {
       separator.innerHTML = '📥 Αδιάβαστα μηνύματα:';
       container.appendChild(separator);
 
-      unread.forEach(function(msg) { addMessageToUI(msg, true); });
-
-      unread.forEach(function(m) { readIds.push(m.id); });
-      localStorage.setItem('read_msg_ids_' + currentUid, JSON.stringify(readIds));
+      unread.forEach(function(msg) { 
+        addMessageToUI(msg, true);
+        var msgEl = container.querySelector('.msg[data-msg-id="' + msg.id + '"]');
+        if (msgEl) msgEl.classList.add('unread-msg');
+        markAsRead(msg.id);
+      });
 
       updateUnreadBadge();
       container.scrollTop = container.scrollHeight;
