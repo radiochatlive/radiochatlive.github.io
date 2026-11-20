@@ -790,18 +790,24 @@ async function goChat(isAutoLogin) {
   var password = document.getElementById('passIn').value.trim();
   if (!username || !password) { showLoginError('⚠️ Συμπλήρωσε όνομα και κωδικό!'); return; }
 
-  if (username.toLowerCase() === 'sakis') {
-    if (password !== '019630') {
-      showLoginError('❌ Λάθος κωδικός!');
-      if (isAutoLogin) { localStorage.removeItem('chat_username'); localStorage.removeItem('chat_password'); localStorage.removeItem('chat_uid'); }
+  // Έλεγχος αν είναι admin μέσω βάσης (πίνακας admins)
+  try {
+    var adminCheck = await client.from('admins')
+      .select('username, password')
+      .eq('username', username.toLowerCase())
+      .maybeSingle();
+    
+    if (adminCheck.data && adminCheck.data.password === password) {
+      // Είναι admin - σωστός κωδικός
+      try { await client.from('active_sessions').delete().eq('username', username.toLowerCase()); } catch(e) {}
+      localStorage.setItem('chat_uid', 'sakis_uid');
+      localStorage.setItem('chat_username', username);
+      localStorage.setItem('chat_password', password);
+      await enterChat(username, 'sakis_uid');
       return;
     }
-    try { await client.from('active_sessions').delete().eq('username', 'sakis'); } catch(e) {}
-    localStorage.setItem('chat_uid', 'sakis_uid');
-    localStorage.setItem('chat_username', username);
-    localStorage.setItem('chat_password', password);
-    await enterChat(username, 'sakis_uid');
-    return;
+  } catch(e) {
+    // Αν αποτύχει ο έλεγχος admin, συνεχίζει κανονικά
   }
 
   var isBanned = await checkIfBanned(username);
@@ -847,7 +853,6 @@ async function goChat(isAutoLogin) {
     await enterChat(username, targetUid);
   } catch(e) { showLoginError('Σφάλμα: ' + e.message); }
 }
-
 function initPeerJS() {
   return new Promise(function(resolve, reject) {
     if (localPeer && peerReady) { resolve(); return; }
