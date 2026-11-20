@@ -806,3 +806,29 @@ input:checked + .slider:before { transform: translateX(20px); }
 @media (max-width: 768px) {
   .tv-popup-container { width: 90vw !important; height: 50vh !important; }
 }
+/* Κουμπί Αδιάβαστων Μηνυμάτων */
+.unread-btn {
+  position: relative;
+}
+
+.unread-btn .unread-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.65em;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 16px;
+  text-align: center;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+  animation: badgePulse 1.5s infinite;
+  margin-left: 0;
+}
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}

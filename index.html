@@ -118,18 +118,21 @@
         <span id="radioNowPlayingText" class="radio-text">Αναμονή για τίτλο τραγουδιού...</span>
       </div>
       
-      <div class="header-actions">
-        <button class="glow-btn" id="radioBtn" onclick="togglePlayer()" title="Ραδιόφωνο">▶️</button>
-        <button class="action-btn tv-btn-header" id="tvBtn" onclick="toggleTvPopup()" title="Live TV">📺</button>
-        <button class="action-btn" id="soundBtn" onclick="toggleSound()" title="Ένταση Ήχου">🔊</button>
-        <button class="action-btn banned-btn-header" id="bannedBtn" onclick="toggleBannedPanel()" title="Λίστα Banned">⛔</button>
-        <button class="action-btn video-perm-btn-header" id="videoPermBtn" onclick="toggleVideoPermPanel()" title="Δικαιώματα Βίντεο">📹🔒</button>
-        <button class="action-btn private-perm-btn-header" id="privatePermBtn" onclick="togglePrivatePermPanel()" title="Δικαιώματα Ιδιωτικών">🔒💬</button>
-        <button class="action-btn" onclick="toggleBgControls()" title="Background">🎨</button>
-        <button class="action-btn clear-btn-header" id="clearBtn" onclick="showClearConfirmation()" title="Διαγραφή (Admin)">🗑️</button>
-        <div class="online-badge"><span class="online-dot"></span> <span id="onlineNum">0</span></div>
-      </div>
-    </div>
+     <div class="header-actions">
+  <button class="glow-btn" id="radioBtn" onclick="togglePlayer()" title="Ραδιόφωνο">▶️</button>
+  <button class="action-btn tv-btn-header" id="tvBtn" onclick="toggleTvPopup()" title="Live TV">📺</button>
+  <button class="action-btn" id="soundBtn" onclick="toggleSound()" title="Ένταση Ήχου">🔊</button>
+  <button class="action-btn banned-btn-header" id="bannedBtn" onclick="toggleBannedPanel()" title="Λίστα Banned">⛔</button>
+  <button class="action-btn video-perm-btn-header" id="videoPermBtn" onclick="toggleVideoPermPanel()" title="Δικαιώματα Βίντεο">📹🔒</button>
+  <button class="action-btn private-perm-btn-header" id="privatePermBtn" onclick="togglePrivatePermPanel()" title="Δικαιώματα Ιδιωτικών">🔒💬</button>
+  <button class="action-btn" onclick="toggleBgControls()" title="Background">🎨</button>
+  <button class="action-btn clear-btn-header" id="clearBtn" onclick="showClearConfirmation()" title="Διαγραφή (Admin)">🗑️</button>
+  <button class="action-btn unread-btn" onclick="loadUnreadInbox()" title="Αδιάβαστα Μηνύματα" style="position: relative;">
+    📥
+    <span id="unreadBadge" class="unread-badge" style="display: none; position: absolute; top: -6px; right: -6px; margin: 0; padding: 2px 6px; font-size: 0.7em;">0</span>
+  </button>
+  <div class="online-badge"><span class="online-dot"></span> <span id="onlineNum">0</span></div>
+</div>
 
     <div class="messages" id="msgContainer"></div>
     

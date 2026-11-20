@@ -453,11 +453,11 @@ function addMessageToUI(msg, isPrivate) {
   if (msgId) { div.setAttribute('data-msg-id', msgId); }
   var avatarHtml = getAvatarHtml(senderName, senderUid);
   var msgDate = new Date(msg.timestamp || Date.now());
-var today = new Date();
-var isToday = msgDate.toDateString() === today.toDateString();
-var time = isToday 
-  ? msgDate.toLocaleTimeString('el', { hour: '2-digit', minute: '2-digit' })
-  : msgDate.toLocaleString('el', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  var today = new Date();
+  var isToday = msgDate.toDateString() === today.toDateString();
+  var time = isToday 
+    ? msgDate.toLocaleTimeString('el', { hour: '2-digit', minute: '2-digit' })
+    : msgDate.toLocaleString('el', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   var deleteButtonHtml = '';
   if (img && isAdmin && deletehash && msgId) {
     deleteButtonHtml = '<button class="delete-image-btn" data-msg-id="' + msgId + '" data-deletehash="' + deletehash + '" data-private="' + isPrivate + '">🗑️ Διαγραφή</button>';
@@ -739,6 +739,7 @@ function subscribeToMessages() {
         showToast(msg.sender_name, msg.sender);
         playNotificationSound();
         updateUserList();
+        updateUnreadBadge(); // <-- ΔΙΟΡΘΩΣΗ: Ενημέρωση badge όταν έρχεται νέο μήνυμα
       }
       if (currentPrivateChat && (isForMeChat || isFromMeChat)) {
         addMessageToUI(msg, true);
@@ -801,7 +802,6 @@ async function goChat(isAutoLogin) {
   var password = document.getElementById('passIn').value.trim();
   if (!username || !password) { showLoginError('⚠️ Συμπλήρωσε όνομα και κωδικό!'); return; }
 
-  // Έλεγχος αν είναι admin μέσω βάσης (πίνακας admins)
   try {
     var adminCheck = await client.from('admins')
       .select('username, password')
@@ -809,7 +809,6 @@ async function goChat(isAutoLogin) {
       .maybeSingle();
     
     if (adminCheck.data && adminCheck.data.password === password) {
-      // Είναι admin - σωστός κωδικός
       try { await client.from('active_sessions').delete().eq('username', username.toLowerCase()); } catch(e) {}
       localStorage.setItem('chat_uid', 'sakis_uid');
       localStorage.setItem('chat_username', username);
@@ -817,9 +816,7 @@ async function goChat(isAutoLogin) {
       await enterChat(username, 'sakis_uid');
       return;
     }
-  } catch(e) {
-    // Αν αποτύχει ο έλεγχος admin, συνεχίζει κανονικά
-  }
+  } catch(e) {}
 
   var isBanned = await checkIfBanned(username);
   if (isBanned) {
@@ -864,6 +861,7 @@ async function goChat(isAutoLogin) {
     await enterChat(username, targetUid);
   } catch(e) { showLoginError('Σφάλμα: ' + e.message); }
 }
+
 function initPeerJS() {
   return new Promise(function(resolve, reject) {
     if (localPeer && peerReady) { resolve(); return; }
@@ -1071,6 +1069,7 @@ async function enterChat(username, uid) {
   } catch(e) {}
 
   updateUserList();
+  updateUnreadBadge(); // <-- ΔΙΟΡΘΩΣΗ: Ενημέρωση badge κατά την είσοδο
 }
 
 async function adminClearAll() {
@@ -1242,13 +1241,11 @@ async function sendAudioMessage() {
 }
 
 function lowerRadioForCall() {
-  // Σίγαση Ραδιοφώνου
   var radioIframe = document.getElementById('playerIframe');
   if (radioIframe && radioIframe.contentWindow) {
     radioIframe.contentWindow.postMessage({ type: 'SET_RADIO_VOLUME', volume: 0 }, '*');
   }
   
-  // Σίγαση Τηλεόρασης - ΠΑΝΤΑ στέλνουμε εντολή αν υπάρχει το iframe
   var tvIframe = document.getElementById('tvIframe');
   if (tvIframe && tvIframe.contentWindow && tvIframe.src && tvIframe.src !== '' && tvIframe.src !== 'about:blank') {
     tvIframe.contentWindow.postMessage({ type: 'SET_TV_VOLUME', volume: 0 }, '*');
@@ -1256,13 +1253,11 @@ function lowerRadioForCall() {
 }
 
 function restoreRadioAfterCall() {
-  // Επαναφορά Ραδιοφώνου
   var radioIframe = document.getElementById('playerIframe');
   if (radioIframe && radioIframe.contentWindow) {
     radioIframe.contentWindow.postMessage({ type: 'SET_RADIO_VOLUME', volume: 1.0 }, '*');
   }
   
-  // Επαναφορά Τηλεόρασης - ΠΑΝΤΑ στέλνουμε εντολή αν υπάρχει το iframe
   var tvIframe = document.getElementById('tvIframe');
   if (tvIframe && tvIframe.contentWindow && tvIframe.src && tvIframe.src !== '' && tvIframe.src !== 'about:blank') {
     tvIframe.contentWindow.postMessage({ type: 'SET_TV_VOLUME', volume: 1.0 }, '*');
@@ -1513,4 +1508,49 @@ function onTouchEnd() {
   isDragging = false;
   document.removeEventListener('touchmove', onTouchMove);
   document.removeEventListener('touchend', onTouchEnd);
+}
+
+// <-- ΝΕΕΣ ΣΥΝΑΡΤΗΣΕΙΣ ΓΙΑ ΑΔΙΑΒΑΣΤΑ ΜΗΝΥΜΑΤΑ -->
+async function updateUnreadBadge() {
+  try {
+    var result = await client.from('private_messages')
+      .select('id', { count: 'exact' })
+      .eq('receiver', currentUid)
+      .eq('is_read', false);
+    var badge = document.getElementById('unreadBadge');
+    if (result.count > 0) {
+      badge.textContent = result.count;
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+  } catch(e) {}
+}
+
+async function loadUnreadInbox() {
+  try {
+    var result = await client.from('private_messages')
+      .select('*')
+      .eq('receiver', currentUid)
+      .eq('is_read', false)
+      .order('timestamp', { ascending: true });
+
+    if (result.data && result.data.length > 0) {
+      var container = document.getElementById('msgContainer');
+      var separator = document.createElement('div');
+      separator.style.cssText = 'text-align:center; color:#fbbf24; margin:20px 0; font-weight:bold; background:rgba(0,0,0,0.5); padding:10px; border-radius:10px;';
+      separator.innerHTML = '📥 Αδιάβαστα μηνύματα:';
+      container.appendChild(separator);
+
+      result.data.forEach(function(msg) { addMessageToUI(msg, true); });
+
+      var unreadIds = result.data.map(function(m) { return m.id; });
+      await client.from('private_messages').update({ is_read: true }).in('id', unreadIds);
+
+      document.getElementById('unreadBadge').style.display = 'none';
+      container.scrollTop = container.scrollHeight;
+    } else {
+      alert('Δεν έχεις αδιάβαστα μηνύματα.');
+    }
+  } catch(e) {}
 }
