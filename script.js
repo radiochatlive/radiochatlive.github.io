@@ -739,7 +739,7 @@ function subscribeToMessages() {
         showToast(msg.sender_name, msg.sender);
         playNotificationSound();
         updateUserList();
-        updateUnreadBadge(); // <-- ΔΙΟΡΘΩΣΗ: Ενημέρωση badge όταν έρχεται νέο μήνυμα
+        updateUnreadBadge();
       }
       if (currentPrivateChat && (isForMeChat || isFromMeChat)) {
         addMessageToUI(msg, true);
@@ -1069,7 +1069,7 @@ async function enterChat(username, uid) {
   } catch(e) {}
 
   updateUserList();
-  updateUnreadBadge(); // <-- ΔΙΟΡΘΩΣΗ: Ενημέρωση badge κατά την είσοδο
+  updateUnreadBadge();
 }
 
 async function adminClearAll() {
@@ -1510,7 +1510,6 @@ function onTouchEnd() {
   document.removeEventListener('touchend', onTouchEnd);
 }
 
-// <-- ΝΕΕΣ ΣΥΝΑΡΤΗΣΕΙΣ ΓΙΑ ΑΔΙΑΒΑΣΤΑ ΜΗΝΥΜΑΤΑ -->
 async function updateUnreadBadge() {
   try {
     var result = await client.from('private_messages')
@@ -1528,6 +1527,10 @@ async function updateUnreadBadge() {
 }
 
 async function loadUnreadInbox() {
+  var container = document.getElementById('msgContainer');
+  var existingSep = container.querySelector('.unread-separator');
+  if (existingSep) existingSep.remove();
+
   try {
     var result = await client.from('private_messages')
       .select('*')
@@ -1536,8 +1539,8 @@ async function loadUnreadInbox() {
       .order('timestamp', { ascending: true });
 
     if (result.data && result.data.length > 0) {
-      var container = document.getElementById('msgContainer');
       var separator = document.createElement('div');
+      separator.className = 'unread-separator';
       separator.style.cssText = 'text-align:center; color:#fbbf24; margin:20px 0; font-weight:bold; background:rgba(0,0,0,0.5); padding:10px; border-radius:10px;';
       separator.innerHTML = '📥 Αδιάβαστα μηνύματα:';
       container.appendChild(separator);
@@ -1547,10 +1550,8 @@ async function loadUnreadInbox() {
       var unreadIds = result.data.map(function(m) { return m.id; });
       await client.from('private_messages').update({ is_read: true }).in('id', unreadIds);
 
-      document.getElementById('unreadBadge').style.display = 'none';
+      updateUnreadBadge();
       container.scrollTop = container.scrollHeight;
-    } else {
-      alert('Δεν έχεις αδιάβαστα μηνύματα.');
     }
   } catch(e) {}
 }
