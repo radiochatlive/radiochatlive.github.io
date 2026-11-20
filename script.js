@@ -446,7 +446,13 @@ function addMessageToUI(msg, isPrivate) {
   div.className = 'msg' + (isOwn ? ' own' : '') + (isPrivate ? ' private' : '');
   if (msgId) { div.setAttribute('data-msg-id', msgId); }
   var avatarHtml = getAvatarHtml(senderName, senderUid);
-  var time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('el', { hour: '2-digit', minute: '2-digit' });
+  var time = new Date(msg.timestamp || Date.now()).toLocaleString('el', { 
+  day: '2-digit', 
+  month: '2-digit', 
+  year: 'numeric', 
+  hour: '2-digit', 
+  minute: '2-digit' 
+});
   var deleteButtonHtml = '';
   if (img && isAdmin && deletehash && msgId) {
     deleteButtonHtml = '<button class="delete-image-btn" data-msg-id="' + msgId + '" data-deletehash="' + deletehash + '" data-private="' + isPrivate + '">🗑️ Διαγραφή</button>';
