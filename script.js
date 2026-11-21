@@ -60,11 +60,23 @@ function openPlayer() {
   document.getElementById('playerPanel').classList.add('show'); 
   isPlayerOpen = true;
   document.getElementById('radioBtn').classList.add('playing');
+
+  setTimeout(function() {
+    var iframe = document.getElementById('playerIframe');
+    if (iframe && iframe.contentWindow) {
+      iframe.contentWindow.postMessage({ type: 'PLAYER_VISIBLE', visible: true }, '*');
+    }
+  }, 50);
 }
 function closePlayer() {
   document.getElementById('playerPanel').classList.remove('show'); 
   isPlayerOpen = false;
   if (isPlayerLoaded) document.getElementById('radioBtn').classList.remove('playing');
+
+  var iframe = document.getElementById('playerIframe');
+  if (iframe && iframe.contentWindow) {
+    iframe.contentWindow.postMessage({ type: 'PLAYER_VISIBLE', visible: false }, '*');
+  }
 }
 function disconnectPlayer() {
   document.getElementById('playerPanel').classList.remove('show'); 
