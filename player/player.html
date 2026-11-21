@@ -577,11 +577,6 @@ let audioCtx, analyser, dataArray, bufferLength, sourceNode;
 let isPlaying = false, isLive = true, retryIntervalMs = 60000;
 let isIntroActive = false, hasIntroPlayed = false;
 let zenoEventSource = null;
-
-// Flags για ορατότητα
-let playerIsVisible = true;
-let equalizerRunning = true;
-
 const btn = document.getElementById('playBtn');
 const visualizerCircle = document.getElementById('visualizerCircle');
 const statusEl = document.getElementById('status');
@@ -718,7 +713,6 @@ let currentEffect = 3;
 const effectNames = ["Bars", "★ Stars", "Circles", "Wave", "Particles", "OFF"];
 
 function drawEqualizer(){
-  if (!equalizerRunning || !playerIsVisible) return;
   requestAnimationFrame(drawEqualizer);
   if(!analyser) return;
   analyser.getByteFrequencyData(dataArray);
@@ -767,10 +761,15 @@ function startZenoMetadata() {
         if (data && data.streamTitle) {
           updateUIWithTitle(data.streamTitle);
         }
-      } catch (err) {}
+      } catch (err) {
+        console.warn("Zeno metadata parse error:", err);
+      }
     });
-    zenoEventSource.onerror = function() {};
+    zenoEventSource.onerror = function() {
+      console.warn("Zeno EventSource error – θα δοκιμάσει ξανά...");
+    };
   } catch (e) {
+    console.error("Αποτυχία σύνδεσης Zeno metadata:", e);
     updateUIWithTitle(originalRadioName);
   }
 }
@@ -844,7 +843,9 @@ async function playStream(url, live = true) {
 
   try {
     await audio.play();
-  } catch (e) {}
+  } catch (e) {
+    console.warn("play() rejected:", e.message || e);
+  }
 }
 
 audio.addEventListener('playing', () => {
@@ -866,6 +867,7 @@ audio.addEventListener('error', () => {
   }
 
   if (isLive) {
+    console.log("Live stream failed → μετάβαση σε Backup...");
     playStream(STREAMS.backup.streamUrl, false);
   } else {
     loadingModal.style.display = "none";
@@ -884,6 +886,7 @@ audio.addEventListener('ended', () => {
   }
 
   if (isLive) {
+    console.log("Live stream ended → μετάβαση σε Backup...");
     playStream(STREAMS.backup.streamUrl, false);
   } else {
     loadingModal.style.display = "none";
@@ -948,6 +951,7 @@ function startIntroFromFancy() {
   const playPromise = introAudio.play();
   if (playPromise !== undefined) {
     playPromise.catch(function (error) {
+      console.error("Αποτυχία intro:", error);
       finishIntroAndStartLive();
     });
   }
@@ -1005,13 +1009,14 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(finishIntroAndStartLive, 450);
   });
   introAudio.addEventListener("error", function () {
+    console.warn("Το intro δεν βρέθηκε. Εκκίνηση radio.");
     finishIntroAndStartLive();
   });
 });
 
 let rotation = 0;
 function rotateButton(){
-  if(isPlaying && playerIsVisible){
+  if(isPlaying){
     rotation += 0.2;
     visualizerCircle.style.transform = `scale(1.0) rotate(${rotation}deg)`;
   }
@@ -1044,10 +1049,6 @@ function startButtonBreath(){
   if(_breathRunning) return;
   _breathRunning = true;
   function step(){
-    if (!playerIsVisible) {
-      _breathRunning = false;
-      return;
-    }
     let boost = 0;
     let targetGlow = 0;
     let musicHue = 174;
@@ -1077,25 +1078,8 @@ function startButtonBreath(){
   requestAnimationFrame(step);
 }
 
-// Μηνύματα από το κυρίως παράθυρο
+// === ΠΡΟΣΘΗΚΗ: Listener για έλεγχο έντασης από το κύριο παράθυρο (chat) ===
 window.addEventListener('message', function(event) {
-  if (event.data && event.data.type === 'PLAYER_VISIBLE') {
-    playerIsVisible = event.data.visible;
-
-    if (playerIsVisible) {
-      if (!equalizerRunning) {
-        equalizerRunning = true;
-        drawEqualizer();
-      }
-      if (!_breathRunning) {
-        startButtonBreath();
-      }
-    } else {
-      equalizerRunning = false;
-      _breathRunning = false;
-    }
-  }
-
   if (event.data && event.data.type === 'SET_RADIO_VOLUME') {
     var targetVolume = parseFloat(event.data.volume);
     if (!isNaN(targetVolume) && targetVolume >= 0 && targetVolume <= 1) {
